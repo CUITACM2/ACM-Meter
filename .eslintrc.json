@@ -1,0 +1,16 @@
+{
+    "root": true,
+    "extends": "standard",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "plugins": [
+        "html"
+    ],
+    "installedESLint": true,
+    "rules": {
+        "semi": "off",
+        "comma-dangle": "off"
+    }
+}
