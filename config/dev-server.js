@@ -3,8 +3,6 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.dev.config');
 
-var proxyPort = 3011;
-
 new WebpackDevServer(webpack(config), {
   contentBase: config.output.path,
   hot: true,
@@ -17,16 +15,10 @@ new WebpackDevServer(webpack(config), {
     children: false,
     errorDetails: true,
     assetsSort: 'name'
-  },
-  proxy: {
-    // '/api/*': {
-    //   target: 'http://localhost:' + proxyPort,
-    //   secure: false
-    // },
   }
-}).listen(config.devPort, '0.0.0.0', function (err, result) {
+}).listen(config.devPort, 'localhost', function (err, result) {
   if (err) {
     return console.log(err);
   }
-  console.log('==> 🌎  Listening at http://0.0.0.0:' + config.devPort);
+  console.log('==> 🌎  Listening at http://localhost:' + config.devPort);
 });

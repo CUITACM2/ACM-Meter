@@ -1,0 +1,40 @@
+body {
+  min-height: 100%;
+  background: #ececec;
+}
+
+#app-root {
+  position: relative;
+  min-height: 100%;
+}
+
+.clear-fix {
+  &::before, &::after {
+    display: block;
+    content: "";
+    height: 0;
+    clear: both;
+  }
+}
+
+.pull-right {
+  float: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+form .ant-input-number {
+  margin: 0 10px;
+}
+
+form .ant-btn {
+  margin-right: 10px;
+}
+
+.ant-table {
+  .ant-tag {
+    margin: 4px 8px;
+  }
+}
