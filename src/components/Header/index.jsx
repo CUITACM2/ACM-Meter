@@ -58,7 +58,7 @@ class Header extends React.PureComponent {
     return (
       <Menu
         mode="horizontal"
-        style={{ lineHeight: '62px', display: 'inline-block' }}
+        style={{ lineHeight: '46px', display: 'inline-block' }}
         selectedKeys={this.state.selectedKeys} onClick={this.linkTo}
       >
         {this.props.menus.map(data => (

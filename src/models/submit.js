@@ -17,7 +17,7 @@ export default {
   subscriptions: {
     listSubscription({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if (pathname === '/admin/spiders/submits') {
+        if (pathname === '/meter/submits/list') {
           dispatch({ type: 'saveParams', payload: query });
           dispatch({ type: 'fetchList', payload: query });
         }

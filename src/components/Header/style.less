@@ -1,7 +1,7 @@
 
 .layout-header {
   background: #fff;
-  height: 64px;
+  height: 48px;
   border-bottom: 1px solid #d9d9d9;
 }
 
@@ -13,35 +13,42 @@
 
 .header-logo {
   width: 150px;
-  height: 32px;
-  line-height: 32px;
-  background: #eee;
-  border-radius: 6px;
-  margin: 16px 18px 16px 0;
+  height: 28px;
+  line-height: 28px;
+  margin: 10px 18px 10px 0;
   float: left;
   text-align: center;
-  color: #666;
-  font-size: 17px;
+  // color: #108ee9;
+  color: #4a4a4b;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Raleway', 'Hiragino Sans GB', sans-serif;
 }
 
-.ant-menu {
+.header-wrapper .ant-menu {
   font-size: 15px;
 
+  .ant-menu-item {
+    top: 1px;
+    text-align: center;
+    min-width: 60px;
+    margin: 0 5px;
+    margin-top: -1px;
+    padding: 0 3px;
+    font-size: 14px;
+  }
+  .ant-menu-item.ant-menu-item-active {
+    color: #108ee9;
+  }
   a.selected, a:active, a:hover {
     color: #fff;
   }
 }
 
-.header-wrapper .ant-menu {
-  .ant-menu-item {
-    padding: 0 10px;
-  }
-}
-
 .layout-header {
   .nav {
-    height: 63px;
-    line-height: 63px;
+    height: 46px;
+    line-height: 46px;
     margin-left: 10px;
 
     li {
