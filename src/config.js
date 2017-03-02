@@ -24,6 +24,11 @@ export const NavbarMenu = [
     ]
   },
   {
+    to: '/meter/blog',
+    text: '解题报告',
+    children: []
+  },
+  {
     to: '/meter/achievement',
     text: '成就',
     children: []

@@ -33,16 +33,7 @@ export default {
     sortField: 'id',
     filters: {}
   },
-  subscriptions: {
-    listSubscription({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/admin/spiders/accounts') {
-          dispatch({ type: 'saveParams', payload: query });
-          dispatch({ type: 'fetchList', payload: query });
-        }
-      });
-    },
-  },
+  subscriptions: {},
   effects: {
     *fetchList({ payload }, { put, call, select }) {
       const params = extractParams(payload);

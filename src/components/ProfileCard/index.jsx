@@ -103,8 +103,5 @@ class ProfileCard extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  user: user.currentUser || {},
-});
 
-export default connect(mapStateToProps)(ProfileCard);
+export default connect()(ProfileCard);

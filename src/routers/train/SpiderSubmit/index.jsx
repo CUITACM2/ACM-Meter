@@ -151,13 +151,13 @@ class SpiderSubmit extends React.PureComponent {
         >
           {activeRecord ? (
             <div>
-              <Table
-                bordered size="small"
-                rowKey={record => record.id}
-                columns={getColumns(this.props.filters)}
-                dataSource={[activeRecord]}
-                pagination={false}
-              />
+              <div>
+                <span>用户名: {activeRecord.user_name}</span>
+                <span className="divider" />
+                <span>Run ID: {activeRecord.run_id}</span>
+                <span className="divider" />
+                <span>OJ: {OJ_MAP[activeRecord.oj_name]}</span>
+              </div>
               <Highlight className="code-block">
                 {activeRecord.code}
               </Highlight>
