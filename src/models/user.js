@@ -33,7 +33,7 @@ export default {
   subscriptions: {
     currentUserSubscriber({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/xmeter*').exec(pathname);
+        const match = pathToRegexp('/meter*').exec(pathname);
         if (match) {
           dispatch({ type: 'loadCurrentUser' });
         }
@@ -96,7 +96,12 @@ export default {
     *update({ payload }, { put, call }) {
       const response = yield call(updateUser, payload.id, payload.params);
       if (response.user != null) {
-        yield put(routerRedux.goBack());
+        if (payload.callback) {
+          callback();
+        }
+        if (payload.goback) {
+          yield put(routerRedux.goBack());
+        }
       } else {
         message.error('更新失败');
       }

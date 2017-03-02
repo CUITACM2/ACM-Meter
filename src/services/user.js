@@ -10,3 +10,11 @@ export function fetchUsers(page, per, params = {}) {
 export function fetchUser(id) {
   return requestWithToken(`${API_ROOT}/users/${id}`);
 }
+
+export function updateUser(id, params) {
+  const data = new FormData();
+  Object.keys(params).forEach(key => { data.append(key, params[key]); });
+  return requestWithToken(`${API_ROOT}/users/${id}`, {
+    method: 'POST', body: data,
+  });
+}

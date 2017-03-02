@@ -1,0 +1,3 @@
+[submodule "libs/simplemde"]
+	path = libs/simplemde
+	url = git@github.com:Raynxxx/simplemde-markdown-editor.git

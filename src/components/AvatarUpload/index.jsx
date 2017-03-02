@@ -1,26 +1,35 @@
 import React, { PropTypes } from 'react';
 import { Upload, message } from 'antd';
-import { withToken } from 'helpers/auth';
-import { withApiRoot } from 'helpers/utils';
-import { UPDATE_USER } from 'constants/endpoints';
+import { API_ROOT, joinCDN } from 'src/config';
+import { getToken } from 'services/auth';
 import './style.less';
 
 export default class AvatarUpload extends React.PureComponent {
 
+  static propTypes = {
+    user: PropTypes.object,
+    afterUpload: PropTypes.func
+  }
+
+  static defaultProps = {
+    afterUpload: (newUser) => console.log('after upload', newUser)
+  }
+
   render() {
     const { user } = this.props;
     const avatar = user.avatar;
-    const avatarUrl = withApiRoot(avatar && avatar.origin);
+    const avatarUrl = joinCDN(avatar && avatar.origin);
     const uploadProps = {
       name: 'avatar',
-      action: UPDATE_USER.endpoint(user.id),
-      headers: withToken(),
+      action: `${API_ROOT}/users/${user.id}`,
+      headers: { Authorization: `Bearer ${getToken()}` },
       showUploadList: false,
-      onChange(info) {
+      onChange: (info) => {
         if (info.file.status === 'done') {
           const newUser = info.file.response.user;
           if (newUser) {
             message.success('头像上传成功');
+            this.props.afterUpload(newUser);
           }
         } else if (info.file.status === 'error') {
           message.error('头像上传失败');
@@ -32,14 +41,10 @@ export default class AvatarUpload extends React.PureComponent {
         <Upload {...uploadProps}>
           <div className="upload-img">
             <img alt="avatar" src={avatarUrl} />
-            <div className="upload-mask"><span>上传头像</span></div>
+            <div className="upload-mask"><span>更改头像</span></div>
           </div>
         </Upload>
       </div>
     );
   }
 }
-
-AvatarUpload.propTypes = {
-  user: PropTypes.object
-};

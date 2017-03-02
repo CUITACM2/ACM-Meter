@@ -97,7 +97,7 @@ class Header extends React.PureComponent {
               <li>
                 <Dropdown overlay={this.renderDropdownMenu()} trigger={['click']}>
                   <a className="ant-dropdown-link" href="#app-root">
-                    <img alt="avatar" src={this.getAvatar(currentUser)} />
+                    <img alt="avatar" className="avatar" src={this.getAvatar(currentUser)} />
                     {currentUser.display_name} <Icon type="down" />
                   </a>
                 </Dropdown>

@@ -7,13 +7,16 @@ import SearchInput from 'components/SearchInput';
 import { OJ_MAP } from 'models/account';
 import './style.less';
 
-const getColumns = (filters, operations) => {
+const originPath = '/meter/train/submits';
+
+const getColumns = (filters, sorter, operations) => {
   const columns = [{
     title: '用户名',
     dataIndex: 'user_name',
-    sorter: true,
     width: '10%',
     className: 'text-center',
+    sorter: true,
+    sortOrder: sorter.field === 'user_name' && sorter.order,
   }, {
     title: 'Run ID',
     dataIndex: 'run_id',
@@ -38,20 +41,23 @@ const getColumns = (filters, operations) => {
   }, {
     title: '运行时间',
     dataIndex: 'run_time',
-    sorter: true,
     width: '10%',
+    sorter: true,
+    sortOrder: sorter.field === 'run_time' && sorter.order,
     render: time => (time < 0 ? null : <span>{time} MS</span>),
   }, {
     title: '内存',
     dataIndex: 'memory',
-    sorter: true,
     width: '10%',
+    sorter: true,
+    sortOrder: sorter.field === 'memory' && sorter.order,
     render: memory => (memory < 0 ? null : <span>{memory} KB</span>),
   }, {
     title: '提交时间',
     dataIndex: 'submitted_at',
+    width: '20%',
     sorter: true,
-    width: '20%'
+    sortOrder: sorter.field === 'submitted_at' && sorter.order,
   }];
   if (operations != null) {
     columns.push({
@@ -73,6 +79,7 @@ class SpiderSubmit extends React.PureComponent {
     dispatch: PropTypes.func,
     loading: PropTypes.bool,
     list: PropTypes.array,
+    sorter: PropTypes.object,
     filters: PropTypes.object,
     pagination: PropTypes.object,
   }
@@ -90,7 +97,7 @@ class SpiderSubmit extends React.PureComponent {
 
   onSearch(value) {
     this.props.dispatch(routerRedux.push({
-      pathname: '/admin/spiders/submits',
+      pathname: originPath,
       query: { ...this.props.location.query, search: value }
     }));
   }
@@ -112,13 +119,13 @@ class SpiderSubmit extends React.PureComponent {
       params.sortOrder = sorter.order;
     }
     this.props.dispatch(routerRedux.push({
-      pathname: '/admin/spiders/submits',
+      pathname: originPath,
       query: { ...this.props.location.query, ...params }
     }));
   }
 
   render() {
-    const columns = getColumns(this.props.filters, {
+    const columns = getColumns(this.props.filters, this.props.sorter, {
       onShowCode: this.onShowCode
     });
     const { showCode, activeRecord } = this.state;
@@ -137,8 +144,10 @@ class SpiderSubmit extends React.PureComponent {
           pagination={this.props.pagination} loading={this.props.loading}
         />
         <Modal
-          closable maskClosable title="查看代码" visible={showCode} footer={null}
-          width={720} onCancel={() => this.setState({ showCode: false })}
+          closable maskClosable
+          title="查看代码" visible={showCode} footer={null}
+          style={{ top: 20 }} width={720}
+          onCancel={() => this.setState({ showCode: false })}
         >
           {activeRecord ? (
             <div>
@@ -164,6 +173,10 @@ const mapStateToProps = ({ loading, submit }) => ({
   loading: loading.models.submit,
   list: submit.list,
   filters: submit.filters,
+  sorter: {
+    order: submit.sortOrder,
+    field: submit.sortField,
+  },
   pagination: {
     current: submit.page,
     pageSize: submit.per,

@@ -1,5 +1,11 @@
 import { fetchSubmits } from 'services/spider';
-import { extractParams } from 'utils/qs';
+
+function extractParams(query) {
+  const { page = 1, search = '', sortField = 'submitted_at', sortOrder = 'descend' } = query;
+  const filters = JSON.parse(query.filters || '{}');
+  return { page: parseInt(page, 10), search, sortField, sortOrder, filters };
+}
+
 
 export default {
   namespace: 'submit',
@@ -17,7 +23,7 @@ export default {
   subscriptions: {
     listSubscription({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        if (pathname === '/meter/submits/list') {
+        if (pathname === '/meter/train/submits') {
           dispatch({ type: 'saveParams', payload: query });
           dispatch({ type: 'fetchList', payload: query });
         }
