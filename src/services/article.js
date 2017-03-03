@@ -14,13 +14,13 @@ export function fetchArticle(id) {
 export function createArticle(params) {
   return requestWithToken(`${API_ROOT}/articles`, {
     method: 'POST', body: JSON.stringify(params),
-  });
+  }, true);
 }
 
-export function updateArticle(params) {
-  return requestWithToken(`${API_ROOT}/articles`, {
+export function updateArticle(id, params) {
+  return requestWithToken(`${API_ROOT}/articles/${id}`, {
     method: 'PUT', body: JSON.stringify(params),
-  });
+  }, true);
 }
 
 export function deleteArticle(id) {

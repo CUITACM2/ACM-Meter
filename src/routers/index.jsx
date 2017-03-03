@@ -8,9 +8,13 @@ import Home from './main/Home';
 import RankList from './train/RankList';
 import SpiderSubmit from './train/SpiderSubmit';
 
-import AchievementApp from './achievement/AchievementApp';
+import BlogIndex from './blog/BlogIndex';
+
+import AchievementIndex from './achievement/AchievementIndex';
 
 import ProfileApp from './principal/ProfileApp';
+import BlogEdit from './principal/BlogEdit';
+
 
 /* eslint react/prop-types:0 */
 export default ({ history }) => (
@@ -23,13 +27,19 @@ export default ({ history }) => (
         <Route path="rank" component={RankList} />
         <Route path="submits" component={SpiderSubmit} />
       </Route>
+      <Route path="blog">
+        <IndexRedirect to="index" />
+        <Route path="index" component={BlogIndex} />
+      </Route>
       <Route path="achievement">
         <IndexRedirect to="index" />
-        <Route path="index" component={AchievementApp} />
+        <Route path="index" component={AchievementIndex} />
       </Route>
       <Route path="principal">
         <IndexRedirect to="profile" />
         <Route path="profile" component={ProfileApp} />
+        <Route path="blog/create" component={BlogEdit} />
+        <Route path="blog/edit/:id" component={BlogEdit} />
       </Route>
     </Route>
   </Router>

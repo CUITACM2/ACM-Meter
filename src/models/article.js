@@ -1,5 +1,9 @@
 import pathToRegexp from 'path-to-regexp';
-import { fetchArticles, fetchArticle, deleteArticle } from 'services/article';
+import { message } from 'antd';
+import { routerRedux } from 'dva/router';
+import {
+  fetchArticles, fetchArticle, updateArticle, deleteArticle
+} from 'services/article';
 
 export const ArticleType = {
   NEWS: 'News',
@@ -25,7 +29,7 @@ export default {
     currentItem: {},
     list: [],
     page: 1,
-    per: 10,
+    per: 5,
     totalCount: 0,
     totalPages: 0,
     search: '',
@@ -35,16 +39,11 @@ export default {
   },
   subscriptions: {
     listSubscriber({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/admin/articles') {
-          dispatch({ type: 'saveParams', payload: query });
-          dispatch({ type: 'fetchList', payload: query });
-        }
-      });
+      // todo
     },
     itemSubscriber({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/admin/articles/edit/:id').exec(pathname);
+        const match = pathToRegexp('/meter/principal/blog/edit/:id').exec(pathname);
         if (match) {
           const id = match[1];
           dispatch({ type: 'fetchItem', payload: id });
@@ -68,11 +67,34 @@ export default {
       const response = yield call(fetchArticle, id);
       yield put({ type: 'saveItem', payload: response.article });
     },
+    *update({ payload }, { put, call }) {
+      const response = yield call(updateArticle, payload.id, payload.params);
+      if (response.article != null) {
+        message.success('更新成功');
+        if (payload.goback) {
+          yield put(routerRedux.goBack());
+        }
+      } else {
+        message.error('更新失败');
+      }
+    },
     *delete({ payload }, { put, call }) {
       const response = yield call(deleteArticle, payload);
       console.log(response);
       if (response.error_code === 0) {
+        message.success('删除成功');
         yield put({ type: 'deleteSuccess', payload });
+      } else {
+        message.success('删除失败');
+      }
+    },
+    *changeStatus({ payload }, { put, call }) {
+      const response = yield call(updateArticle, payload.id, payload.params);
+      if (response.error_code !== 1 && response.article != null) {
+        message.success('修改成功');
+        yield put({ type: 'updateSuccess', payload: response.article });
+      } else {
+        message.error('修改失败');
       }
     }
   },
@@ -93,7 +115,13 @@ export default {
       return { ...state, currentItem: payload };
     },
     deleteSuccess(state, { payload }) {
-      return { ...state, list: state.list.filter(user => user.id !== payload) };
+      return { ...state, list: state.list.filter(article => article.id !== payload) };
+    },
+    updateSuccess(state, { payload }) {
+      return {
+        ...state,
+        list: state.list.map(article => (article.id !== payload.id ? article : payload))
+      };
     }
   }
 };

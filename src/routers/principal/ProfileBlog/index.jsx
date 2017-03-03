@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import {
-  Table, Popconfirm, Button, Menu,
-  Dropdown, Icon
-} from 'antd';
+import { Table, Popconfirm, Button, Menu, Modal, Tag, Dropdown, Icon } from 'antd';
+import marked from 'marked';
+import Highlight from 'react-highlight';
 import StatusPoint from 'components/StatusPoint';
+import SearchInput from 'components/SearchInput';
 import { ArticleStatus, ArticleType } from 'models/article';
+import './style.less';
 
 const MenuItem = Menu.Item;
 
@@ -89,12 +90,11 @@ const getColumns = (filters, operations) => (
     title: '操作',
     key: 'operation',
     render: (text, record) => {
-      const editOp = <Link to={`/admin/articles/edit/${record.id}`}>修改</Link>;
+      const editOp = <Link to={`/meter/principal/blog/edit/${record.id}`}>修改</Link>;
       return (
         <span>
-          {record.article_type === ArticleType.NEWS ? (
-            <span>{editOp}<span className="ant-divider" /></span>
-          ) : null}
+          {editOp}
+          <span className="ant-divider" />
           <Popconfirm
             title="确定要删除吗？" placement="left"
             onConfirm={() => operations.onDelete(record)}
@@ -129,15 +129,30 @@ class ProfileBlog extends React.PureComponent {
     pagination: PropTypes.object,
   }
 
+  static defaultFilters = (user) => ({
+    article_type: ArticleType.SOLUTION,
+    user_id: user.id
+  })
+
   static updateData(user, dispatch) {
     if (user && user.id) {
-      const filters = JSON.stringify({
-        article_type: ArticleType.SOLUTION,
-        user_id: user.id
-      });
+      const filters = JSON.stringify(ProfileBlog.defaultFilters(user));
       dispatch({ type: 'article/saveParams', payload: { filters } });
       dispatch({ type: 'article/fetchList', payload: { filters } });
     }
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showPreviewModal: false,
+      activeRecord: null,
+    };
+    this.handleTableChange = this.handleTableChange.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onPreview = this.onPreview.bind(this);
+    this.onChangeStatus = this.onChangeStatus.bind(this);
   }
 
   componentDidMount() {
@@ -150,14 +165,88 @@ class ProfileBlog extends React.PureComponent {
     }
   }
 
+  onDelete(record) {
+    this.props.dispatch({ type: 'article/delete', payload: record.id });
+  }
+
+  onSearch(value) {
+    console.log(value);
+    console.log(this.props.filters);
+  }
+
+  onChangeStatus(record, status) {
+    this.props.dispatch({
+      type: 'article/changeStatus',
+      payload: {
+        id: record.id,
+        params: { status }
+      }
+    });
+  }
+
+  onPreview(e, record) {
+    e.preventDefault();
+    this.setState({ showPreviewModal: true, activeRecord: record });
+  }
+
+  handleTableChange(pagination, filters, sorter) {
+    const params = {
+      page: pagination.current,
+      filters: JSON.stringify({
+        ...filters,
+        ...ProfileBlog.defaultFilters(this.props.user)
+      })
+    };
+    if (sorter && sorter.field) {
+      params.sortField = sorter.field;
+      params.sortOrder = sorter.order;
+    }
+    console.log(params);
+    this.props.dispatch({ type: 'article/saveParams', payload: params });
+    this.props.dispatch({ type: 'article/fetchList', payload: params });
+  }
+
+  renderPreviewModal() {
+    const { showPreviewModal, activeRecord = {} } = this.state;
+    return (
+      <Modal
+        closable maskClosable
+        title={`预览 - ${activeRecord ? activeRecord.title : ''}`}
+        visible={showPreviewModal} footer={null}
+        style={{ top: 20 }} width={640}
+        onCancel={() => this.setState({ showPreviewModal: false })}
+      >
+        {activeRecord ? (
+          <div>
+            <div className="tags-line">
+              <b>标签:</b>
+              {activeRecord.tags.map(tag => <Tag key={tag} color="blue">{tag}</Tag>)}
+            </div>
+            <hr />
+            <Highlight className="article-preview" innerHTML>
+              {marked(activeRecord.content)}
+            </Highlight>
+          </div>
+        ) : null}
+      </Modal>
+    );
+  }
+
   render() {
-    const columns = getColumns(this.props.filters, {});
+    const columns = getColumns(this.props.filters, {
+      onDelete: this.onDelete,
+      onPreview: this.onPreview,
+      onChangeStatus: this.onChangeStatus
+    });
     return (
       <div>
         <div className="table-operations clear-fix">
           <Button type="primary" >
-            新建解题报告
+            <Link to="/meter/principal/blog/create">新建解题报告</Link>
           </Button>
+          <div className="pull-right">
+            <SearchInput onSearch={this.onSearch} style={{ width: 200 }} />
+          </div>
         </div>
         <Table
           bordered size="small"
@@ -166,6 +255,7 @@ class ProfileBlog extends React.PureComponent {
           columns={columns} dataSource={this.props.list}
           pagination={this.props.pagination} loading={this.props.loading}
         />
+        {this.renderPreviewModal()}
       </div>
     );
   }

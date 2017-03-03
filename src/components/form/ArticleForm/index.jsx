@@ -32,13 +32,13 @@ class ArticleForm extends React.PureComponent {
       if (!errors) {
         const params = this.props.form.getFieldsValue();
         const { article } = this.props;
-        this.props.onSubmit({
+        this.props.onSubmit(article && article.id, {
           ...params,
-          article_type: ArticleType.NEWS,
+          article_type: ArticleType.SOLUTION,
           status: isDraft ? ArticleStatus.DRAFT : ArticleStatus.PUBLISH,
           content: this.state.contentValue || article.content,
           tags: this.state.tags || article.tags
-        }, article && article.id);
+        });
       }
     });
   }
@@ -47,8 +47,7 @@ class ArticleForm extends React.PureComponent {
     const { article } = this.props;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 16 },
+      labelCol: { span: 4 }, wrapperCol: { span: 16 }
     };
     const titleDecorator = getFieldDecorator('title', {
       initialValue: article && article.title,
@@ -57,7 +56,7 @@ class ArticleForm extends React.PureComponent {
       ]
     });
     return (
-      <Form horizontal onSubmit={this.onSubmit}>
+      <Form horizontal>
         <FormItem {...formItemLayout} label="标题">
           {titleDecorator(
             <Input size="default" placeholder="标题" />
@@ -76,7 +75,7 @@ class ArticleForm extends React.PureComponent {
           />
         </FormItem>
         <FormItem wrapperCol={{ span: 16, offset: 4 }} >
-          <Button type="primary" htmlType="submit">发布</Button>
+          <Button type="primary" onClick={e => this.onSubmit(e, false)}>发布</Button>
           <Button type="ghost" onClick={e => this.onSubmit(e, true)}>存到草稿</Button>
         </FormItem>
       </Form>

@@ -13,7 +13,7 @@ const getColumns = (filters, sorter, operations) => {
   const columns = [{
     title: '用户名',
     dataIndex: 'user_name',
-    width: '10%',
+    width: '8%',
     className: 'text-center',
     sorter: true,
     sortOrder: sorter.field === 'user_name' && sorter.order,
@@ -24,12 +24,14 @@ const getColumns = (filters, sorter, operations) => {
   }, {
     title: 'OJ',
     dataIndex: 'oj_name',
-    width: '10%',
+    width: '12%',
     filters: Object.keys(OJ_MAP).map(oj => (
       { text: OJ_MAP[oj], value: oj }
     )),
     filteredValue: filters.oj_name || [],
-    render: oj => <span>{OJ_MAP[oj]}</span>,
+    render: (oj, record) => (
+      <div>{OJ_MAP[oj]}<br />{record.origin_oj ? `(原: ${record.origin_oj})` : null}</div>
+    ),
   }, {
     title: '题目',
     dataIndex: 'pro_id',
@@ -124,11 +126,47 @@ class SpiderSubmit extends React.PureComponent {
     }));
   }
 
+  renderCodeModal() {
+    const { showCode, activeRecord } = this.state;
+    return (
+      <Modal
+        closable maskClosable
+        title="查看代码" visible={showCode} footer={null}
+        style={{ top: 20 }} width={720}
+        onCancel={() => this.setState({ showCode: false })}
+      >
+        {activeRecord ? (
+          <div>
+            <div>
+              <span>用户名: {activeRecord.user_name}</span>
+              <span className="divider" />
+              <span>Run ID: {activeRecord.run_id}</span>
+              <span className="divider" />
+              <span>OJ: {OJ_MAP[activeRecord.oj_name]}</span>
+              <span className="divider" />
+              <span>题目: {activeRecord.pro_id}</span>
+              <span className="divider" />
+              <span>语言: {activeRecord.lang}</span>
+              <br />
+              <span>运行时间: {activeRecord.run_time >= 0 ? `${activeRecord.run_time} MS` : 0}</span>
+              <span className="divider" />
+              <span>内存: {activeRecord.memory >= 0 ? `${activeRecord.memory} KB` : 0}</span>
+              <span className="divider" />
+              <span>提交时间: {activeRecord.submitted_at}</span>
+            </div>
+            <Highlight className="code-block">
+              {activeRecord.code}
+            </Highlight>
+          </div>
+        ) : null}
+      </Modal>
+    );
+  }
+
   render() {
     const columns = getColumns(this.props.filters, this.props.sorter, {
       onShowCode: this.onShowCode
     });
-    const { showCode, activeRecord } = this.state;
     return (
       <div className="submit-table">
         <div className="table-operations clear-fix">
@@ -143,27 +181,7 @@ class SpiderSubmit extends React.PureComponent {
           columns={columns} dataSource={this.props.list}
           pagination={this.props.pagination} loading={this.props.loading}
         />
-        <Modal
-          closable maskClosable
-          title="查看代码" visible={showCode} footer={null}
-          style={{ top: 20 }} width={720}
-          onCancel={() => this.setState({ showCode: false })}
-        >
-          {activeRecord ? (
-            <div>
-              <div>
-                <span>用户名: {activeRecord.user_name}</span>
-                <span className="divider" />
-                <span>Run ID: {activeRecord.run_id}</span>
-                <span className="divider" />
-                <span>OJ: {OJ_MAP[activeRecord.oj_name]}</span>
-              </div>
-              <Highlight className="code-block">
-                {activeRecord.code}
-              </Highlight>
-            </div>
-          ) : null}
-        </Modal>
+        {this.renderCodeModal()}
       </div>
     );
   }
