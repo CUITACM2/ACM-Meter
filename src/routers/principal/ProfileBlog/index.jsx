@@ -50,7 +50,7 @@ const getColumns = (filters, operations) => (
   }, {
     title: '状态',
     dataIndex: 'status',
-    width: '10%',
+    width: '15%',
     filters: [
       { text: '回收站', value: ArticleStatus.RECYCLE },
       { text: '草稿', value: ArticleStatus.DRAFT },
@@ -77,15 +77,15 @@ const getColumns = (filters, operations) => (
     dataIndex: 'user.name',
     width: '8%',
   }, {
-    title: '更新时间',
-    dataIndex: 'updated_at',
-    sorter: true,
-    width: '18%'
-  }, {
-    title: '创建时间',
+    title: '创建/更新时间',
     dataIndex: 'created_at',
-    sorter: true,
-    width: '18%'
+    width: '30%',
+    render: (createdAt, record) => (
+      <div>
+        创建: {createdAt}<br />
+        更新: {record.updated_at}
+      </div>
+    )
   }, {
     title: '操作',
     key: 'operation',

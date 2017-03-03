@@ -26,6 +26,7 @@ class ProfileApp extends React.PureComponent {
               <ProfileAccount user={this.props.user} />
             </TabPane>
             <TabPane tab="提交" key="3">提交</TabPane>
+            <TabPane tab="成就" key="4">成就</TabPane>
           </Tabs>
         </div>
       </div>

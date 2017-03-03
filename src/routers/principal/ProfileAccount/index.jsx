@@ -107,6 +107,7 @@ class ProfileAccount extends React.PureComponent {
       showEditModal: false,
       activeRecord: null,
     };
+    this.onUpdate = this.onUpdate.bind(this);
     this.handleTableChange = this.handleTableChange.bind(this);
   }
 
@@ -118,6 +119,10 @@ class ProfileAccount extends React.PureComponent {
     if (nextProps.user !== this.props.user) {
       ProfileAccount.updateData(nextProps.user, this.props.dispatch);
     }
+  }
+
+  onUpdate() {
+    // todo
   }
 
   handleTableChange(pagination) {

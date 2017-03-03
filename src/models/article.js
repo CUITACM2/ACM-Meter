@@ -18,7 +18,7 @@ export const ArticleStatus = {
 };
 
 const extractParams = query => {
-  const { page = 1, search = '', sortField = 'id', sortOrder = 'ascend' } = query;
+  const { page = 1, search = '', sortField = 'id', sortOrder = 'descend' } = query;
   const filters = JSON.parse(query.filters || '{}');
   return { page: parseInt(page, 10), search, sortField, sortOrder, filters };
 };
@@ -29,7 +29,7 @@ export default {
     currentItem: {},
     list: [],
     page: 1,
-    per: 5,
+    per: 10,
     totalCount: 0,
     totalPages: 0,
     search: '',
@@ -39,7 +39,12 @@ export default {
   },
   subscriptions: {
     listSubscriber({ dispatch, history }) {
-      // todo
+      return history.listen(({ pathname, query }) => {
+        if (pathname === '/meter/blog/index') {
+          dispatch({ type: 'saveParams', payload: query });
+          dispatch({ type: 'fetchList', payload: query });
+        }
+      });
     },
     itemSubscriber({ dispatch, history }) {
       return history.listen(({ pathname }) => {

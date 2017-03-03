@@ -10,6 +10,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 process.env.NODE_ENV = 'production';
 
 module.exports = webpackMerge(baseConfig, {
+  devtool: false,
   output: {
     publicPath: './',
     path: path.resolve(__dirname, '../dist'),
