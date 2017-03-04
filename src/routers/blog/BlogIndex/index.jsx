@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Card, Popconfirm, Button, Menu, Modal, Tag, Dropdown, Icon } from 'antd';
+import { Pagination, Tag, Radio } from 'antd';
 import './style.less';
 
 class BlogIndex extends React.PureComponent {
@@ -16,17 +16,26 @@ class BlogIndex extends React.PureComponent {
   }
 
   render() {
-    const { list } = this.props;
+    const { list, pagination } = this.props;
     return (
-      <div>
-        <ul className="blog-list">
-          {list.map(blog =>
-            <li key={blog.id}>
-              <h4><Link>{blog.title}</Link></h4>
-              <p>{blog.user ? blog.user.name : ''}</p>
-            </li>
-          )}
-        </ul>
+      <div className="blog-index">
+        <div className="blog-tabs">
+          <Radio.Group value="large" size="large">
+            <Radio.Button value="large">最新</Radio.Button>
+            <Radio.Button value="default">热门</Radio.Button>
+          </Radio.Group>`
+        </div>
+        <div className="blog-card">
+          <ul className="blog-list">
+            {list.map(blog =>
+              <li key={blog.id}>
+                <h4><Link>{blog.title}</Link></h4>
+                <p>{blog.user ? blog.user.name : ''}</p>
+              </li>
+            )}
+          </ul>
+          <Pagination {...pagination} />
+        </div>
       </div>
     );
   }
@@ -39,8 +48,7 @@ const mapStateToProps = ({ loading, article }) => ({
   pagination: {
     current: article.page,
     pageSize: article.per,
-    total: article.totalCount,
-    showTotal: total => <span>共有 {total} 篇解题报告</span>,
+    total: article.totalCount
   }
 });
 

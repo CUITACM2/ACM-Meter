@@ -1,12 +1,21 @@
 @c0: #108ee9;
 @c1: #666;
 
-ul.blog-list {
+.blog-index .blog-tabs {
+  margin-bottom: 10px;
 }
 
-ul.blog-list li {
+.blog-index .blog-card {
+  padding: 0 2px;
+}
+
+.blog-index .blog-card ul.blog-list {
+  margin-bottom: 15px;
+}
+
+.blog-index .blog-card ul.blog-list > li {
   display: block;
-  padding: 10px 15px;
+  padding: 10px 0;
   border-bottom: 1px solid #f1f1f1;
 
   h4 {
@@ -15,6 +24,7 @@ ul.blog-list li {
   h4 > a {
     color: @c1;
     font-size: 16px;
+    font-weight: 500;
     line-height: 1.2;
     &:hover {
       text-decoration: underline;
