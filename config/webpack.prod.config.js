@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'production';
 module.exports = webpackMerge(baseConfig, {
   devtool: false,
   output: {
-    publicPath: './',
+    publicPath: '/frontend/meter/',
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].bundle.[hash:7].js',
     chunkFilename: 'chunks/[name].chunk.[hash:7].js',
@@ -33,7 +33,8 @@ module.exports = webpackMerge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
-      }
+      },
+      PRODUCTION: JSON.stringify(true),
     }),
     new HtmlWebpackPlugin({
       inject: true,

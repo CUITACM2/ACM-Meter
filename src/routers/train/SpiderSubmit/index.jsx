@@ -105,10 +105,7 @@ class SpiderSubmit extends React.PureComponent {
   }
 
   onShowCode(record) {
-    this.setState({
-      activeRecord: record,
-      showCode: true
-    });
+    this.setState({ activeRecord: record, showCode: true });
   }
 
   handleTableChange(pagination, filters, sorter) {
