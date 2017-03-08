@@ -69,8 +69,12 @@ class Header extends React.PureComponent {
   }
 
   renderDropdownMenu() {
+    const { currentUser } = this.props;
     const onMenuSelect = ({ key }) => {
       switch (key) {
+        case 'to_admin':
+          window.location.href = '/admin';
+          break;
         case 'logout':
           this.props.dispatch({ type: 'auth/logout' });
           break;
@@ -80,6 +84,7 @@ class Header extends React.PureComponent {
     };
     return (
       <Menu onSelect={onMenuSelect}>
+        {currentUser.is_admin ? <Menu.Item key="to_admin">管理后台</Menu.Item> : null}
         <Menu.Item key="logout">注销</Menu.Item>
       </Menu>
     );
