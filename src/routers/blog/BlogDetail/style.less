@@ -1,0 +1,42 @@
+.blog {
+  &-header {
+    position: relative;
+    padding: 10px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #dfdfdf;
+    h1 {
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+    &-user, &-time {
+      margin-left: 8px;
+    }
+    &-user {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    &-time {
+      font-size: 12px;
+    }
+    &-like {
+      position: absolute;
+      right: 12px;
+      width: 40px;
+      top: 50%;
+      transform: translate(0, -50%);
+      i, span {
+        display: block;
+        text-align: center;
+      }
+      i {
+        font-size: 24px;
+      }
+      span {
+        background: #dfdfdf;
+        border-radius: 4px;
+        margin-top: 8px;
+        font-size: 16px;
+      }
+    }
+  }
+}

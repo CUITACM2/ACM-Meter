@@ -43,7 +43,7 @@ class BlogIndex extends React.PureComponent {
             {list.map(blog =>
               <li key={blog.id}>
                 <div className="blog-list-left">
-                  <Icon type="star" />
+                  <Icon type="heart-o" />
                   <span>{blog.like_times}</span>
                 </div>
                 <div className="blog-list-right">
