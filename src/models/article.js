@@ -46,6 +46,15 @@ export default {
         }
       });
     },
+    detailSubscriber({ dispatch, history }) {
+      return history.listen(({ pathname, query}) => {
+        const match = pathToRegexp('/meter/blog/detail/:id').exec(pathname);
+        if (match) {
+          const id = match[1];
+          dispatch({ type: 'fetchItem', payload: id })
+        }
+      });
+    },
     itemSubscriber({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         const match = pathToRegexp('/meter/principal/blog/edit/:id').exec(pathname);

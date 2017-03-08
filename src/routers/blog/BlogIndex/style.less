@@ -14,8 +14,9 @@
 }
 
 .blog-index .blog-card ul.blog-list > li {
+  position: relative;
   display: block;
-  padding: 10px 0;
+  padding: 10px 0 10px 40px;
   border-bottom: 1px solid #f1f1f1;
 
   h4 {
@@ -29,5 +30,32 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.blog-list {
+  &-left {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 38px;
+    transform: translate(0, -50%);
+    i, span {
+      display: block;
+      cursor: pointer;
+    }
+    i {
+      font-size: 18px;
+    }
+    span {
+      position: relative;
+      margin-top: 6px;
+      text-align: center;
+    }
+  }
+  &-right {
+    position: relative;
+    border-left: 1px solid #f1f1f1;
+    padding-left: 8px; 
   }
 }

@@ -9,6 +9,7 @@ import RankList from './train/RankList';
 import SpiderSubmit from './train/SpiderSubmit';
 
 import BlogIndex from './blog/BlogIndex';
+import BlogDetail from './blog/BlogDetail';
 
 import AchievementIndex from './achievement/AchievementIndex';
 
@@ -30,6 +31,7 @@ export default ({ history }) => (
       <Route path="blog">
         <IndexRedirect to="index" />
         <Route path="index" component={BlogIndex} />
+        <Route path="detail/:id" component={BlogDetail} />
       </Route>
       <Route path="achievement">
         <IndexRedirect to="index" />
