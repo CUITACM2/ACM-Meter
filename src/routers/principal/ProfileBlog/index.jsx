@@ -51,17 +51,8 @@ const getColumns = (filters, operations) => (
     title: '状态',
     dataIndex: 'status',
     width: '15%',
-    filters: [
-      { text: '回收站', value: ArticleStatus.RECYCLE },
-      { text: '草稿', value: ArticleStatus.DRAFT },
-      { text: '发布', value: ArticleStatus.PUBLISH },
-      { text: '置顶', value: ArticleStatus.PINNED }
-    ],
-    filteredValue: filters.status || [],
     render: status => {
       switch (status) {
-        case ArticleStatus.RECYCLE:
-          return <StatusPoint color="gray">回收站</StatusPoint>;
         case ArticleStatus.DRAFT:
           return <StatusPoint color="light-blue">草稿</StatusPoint>;
         case ArticleStatus.PUBLISH:
@@ -130,15 +121,16 @@ class ProfileBlog extends React.PureComponent {
   }
 
   static defaultFilters = (user) => ({
+    user_id: user.id,
     article_type: ArticleType.SOLUTION,
-    user_id: user.id
+    status: [ArticleStatus.DRAFT, ArticleStatus.PUBLISH, ArticleStatus.PINNED]
   })
 
   static updateData(user, dispatch) {
     if (user && user.id) {
       const filters = JSON.stringify(ProfileBlog.defaultFilters(user));
       dispatch({ type: 'article/saveParams', payload: { filters } });
-      dispatch({ type: 'article/fetchList', payload: { filters } });
+      dispatch({ type: 'article/fetchSolutionList', payload: { filters } });
     }
   }
 
@@ -177,10 +169,7 @@ class ProfileBlog extends React.PureComponent {
   onChangeStatus(record, status) {
     this.props.dispatch({
       type: 'article/changeStatus',
-      payload: {
-        id: record.id,
-        params: { status }
-      }
+      payload: { id: record.id, params: { status } }
     });
   }
 
@@ -223,6 +212,7 @@ class ProfileBlog extends React.PureComponent {
               {activeRecord.tags.map(tag => <Tag key={tag} color="blue">{tag}</Tag>)}
             </div>
             <hr />
+            <h5>正文</h5>
             <Highlight className="article-preview" innerHTML>
               {marked(activeRecord.content)}
             </Highlight>
@@ -238,6 +228,7 @@ class ProfileBlog extends React.PureComponent {
       onPreview: this.onPreview,
       onChangeStatus: this.onChangeStatus
     });
+    console.log(this.props.list);
     return (
       <div>
         <div className="table-operations clear-fix">

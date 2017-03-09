@@ -17,26 +17,25 @@ class BlogIndex extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.pageChangeHandler = this.pageChangeHandler.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
-  pageChangeHandler (page) {
+  onPageChange(page) {
     this.props.dispatch(routerRedux.push({
       pathname: '/meter/blog/index',
-      query: { page },
+      query: { ...this.props.location.query, page },
     }));
   }
 
   render() {
     const { list, pagination } = this.props;
-    console.log(list)
     return (
       <div className="blog-index">
         <div className="blog-tabs">
           <Radio.Group value="large" size="large">
             <Radio.Button value="large">最新</Radio.Button>
             <Radio.Button value="default">热门</Radio.Button>
-          </Radio.Group>`
+          </Radio.Group>
         </div>
         <div className="blog-card">
           <ul className="blog-list">
@@ -47,17 +46,16 @@ class BlogIndex extends React.PureComponent {
                   <span>{blog.like_times}</span>
                 </div>
                 <div className="blog-list-right">
-                  <h4><Link to={"/meter/blog/detail/"+blog.id}>{blog.title}</Link></h4>
+                  <h4><Link to={`/meter/blog/detail/${blog.id}`}>{blog.title}</Link></h4>
                   <p>{blog.summary}</p>
                   <p>{blog.user ? blog.user.name : ''}</p>
                 </div>
               </li>
             )}
           </ul>
-          <Pagination 
-            {...pagination}
-            onChange={this.pageChangeHandler} 
-          />
+          <div className="pagination-center">
+            <Pagination {...pagination} onChange={this.onPageChange} />
+          </div>
         </div>
       </div>
     );

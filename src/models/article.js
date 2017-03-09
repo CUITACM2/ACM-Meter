@@ -2,7 +2,8 @@ import pathToRegexp from 'path-to-regexp';
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import {
-  fetchArticles, fetchArticle, updateArticle, deleteArticle
+  fetchArticles, fetchArticle, updateArticle, deleteArticle,
+  fetchSolutions
 } from 'services/article';
 
 export const ArticleType = {
@@ -41,22 +42,32 @@ export default {
     listSubscriber({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/meter/blog/index') {
-          dispatch({ type: 'saveParams', payload: query });
-          dispatch({ type: 'fetchList', payload: query });
+          const newQuery = {
+            ...query,
+            filters: JSON.stringify({
+              ...query.filters,
+              status: [ArticleStatus.PUBLISH, ArticleStatus.PINNED]
+            })
+          };
+          dispatch({ type: 'saveParams', payload: newQuery });
+          dispatch({ type: 'fetchSolutionList', payload: newQuery });
         }
       });
     },
     detailSubscriber({ dispatch, history }) {
-      return history.listen(({ pathname, query}) => {
+      return history.listen(({ pathname }) => {
         const match = pathToRegexp('/meter/blog/detail/:id').exec(pathname);
         if (match) {
           const id = match[1];
-          dispatch({ type: 'fetchItem', payload: id })
+          dispatch({ type: 'fetchItem', payload: id });
         }
       });
     },
     itemSubscriber({ dispatch, history }) {
       return history.listen(({ pathname }) => {
+        if (pathname === '/meter/principal/blog/create') {
+          dispatch({ type: 'saveItem', payload: {} });
+        }
         const match = pathToRegexp('/meter/principal/blog/edit/:id').exec(pathname);
         if (match) {
           const id = match[1];
@@ -70,6 +81,17 @@ export default {
       const params = extractParams(payload);
       const per = yield select(state => state.article.per);
       const response = yield call(fetchArticles, params.page, per, {
+        search: params.search,
+        sort_field: params.sortField,
+        sort_order: params.sortOrder,
+        filters: params.filters,
+      });
+      yield put({ type: 'saveList', payload: response });
+    },
+    *fetchSolutionList({ payload }, { put, call, select }) {
+      const params = extractParams(payload);
+      const per = yield select(state => state.article.per);
+      const response = yield call(fetchSolutions, params.page, per, {
         search: params.search,
         sort_field: params.sortField,
         sort_order: params.sortOrder,
