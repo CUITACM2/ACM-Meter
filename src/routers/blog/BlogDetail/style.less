@@ -1,42 +1,59 @@
-.blog {
-  &-header {
-    position: relative;
-    padding: 10px 0;
+@c0: #108ee9;
+@c1: #333;
+@c2: #009a61;
+
+.blog-header {
+  position: relative;
+  padding: 10px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #dfdfdf;
+  h1 {
+    font-weight: bold;
     margin-bottom: 8px;
-    border-bottom: 1px solid #dfdfdf;
-    h1 {
-      font-weight: normal;
-      margin-bottom: 8px;
+  }
+  &-tags {
+    display: inline-block;
+    padding: 0 10px 0 0;
+  }
+  &-user {
+    font-weight: bold;
+    color: @c2;
+  }
+  &-time {
+    font-size: 12px;
+    margin: 0 0 0 10px;
+  }
+  &-like {
+    position: absolute;
+    right: 12px;
+    width: 40px;
+    top: 50%;
+    transform: translate(0, -50%);
+    i, span {
+      display: block;
+      text-align: center;
     }
-    &-user, &-time {
-      margin-left: 8px;
+    i {
+      font-size: 24px;
     }
-    &-user {
-      font-weight: bold;
-      font-size: 14px;
+    span {
+      background: #dfdfdf;
+      border-radius: 4px;
+      margin-top: 8px;
+      font-size: 16px;
     }
-    &-time {
-      font-size: 12px;
-    }
-    &-like {
-      position: absolute;
-      right: 12px;
-      width: 40px;
-      top: 50%;
-      transform: translate(0, -50%);
-      i, span {
-        display: block;
-        text-align: center;
-      }
-      i {
-        font-size: 24px;
-      }
-      span {
-        background: #dfdfdf;
-        border-radius: 4px;
-        margin-top: 8px;
-        font-size: 16px;
-      }
-    }
+  }
+}
+
+.blog-content {
+  padding: 10px 0;
+  min-height: 200px;
+
+  h1 {
+    font-size: 25px;
+  }
+
+  p {
+    font-size: 14px;
   }
 }

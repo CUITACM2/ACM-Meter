@@ -2,7 +2,7 @@
 const HOST = PRODUCTION ? '' : 'http://127.0.0.1:3000';
 export const CDN_ROOT = HOST;
 export const API_ROOT = `${HOST}/api/v1`;
-export const SiteName = 'ACM 校队水表';
+export const SiteName = 'CUIT ACM 校队水表';
 
 export function joinCDN(url) {
   if (url == null) return '';

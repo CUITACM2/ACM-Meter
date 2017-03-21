@@ -58,6 +58,7 @@ export default {
       return history.listen(({ pathname }) => {
         const match = pathToRegexp('/meter/blog/detail/:id').exec(pathname);
         if (match) {
+          dispatch({ type: 'saveItem', payload: {} });
           const id = match[1];
           dispatch({ type: 'fetchItem', payload: id });
         }

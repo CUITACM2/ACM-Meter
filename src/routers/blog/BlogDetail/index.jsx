@@ -2,44 +2,55 @@ import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { Tag, Icon } from 'antd';
 import marked from 'marked';
+import Highlight from 'react-highlight';
+import BlogComment from '../BlogComment';
 import './style.less';
-
-function createMarkup(content) {
-  return { __html: marked(content) };
-}
 
 class BlogDetail extends React.PureComponent {
   static propTypes = {
     dispatch: PropTypes.func,
     loading: PropTypes.bool,
-    article: PropTypes.object,
+    blog: PropTypes.object,
   }
 
   constructor(props) {
     super(props);
   }
 
-  render() {
-    const article = this.props.article;
+  renderBlogHeader(blog) {
+    return (
+      <div className="blog-header">
+        <h1>{blog.title}</h1>
+        {blog.tags && blog.tags.length > 0 ? (
+          <div className="blog-header-tags">
+            {blog.tags.map(tag =>
+              <Tag key={tag} color="blue">{tag}</Tag>
+            )}
+          </div>
+        ) : null}
+        <span className="blog-header-user">
+          {blog.user ? blog.user.name : ''}
+        </span>
+        <span className="blog-header-time">
+          发布于 {blog.created_at}
+        </span>
+        <div className="blog-header-like">
+          <Icon type="heart-o" />
+          <span>{blog.like_times}</span>
+        </div>
+      </div>
+    );
+  }
 
+  render() {
+    const { blog } = this.props;
     return (
       <div className="blog">
-        <div className="blog-header">
-          <h1>{article.title}</h1>
-          {article && article.tags && article.tags.map((tag, index) =>
-            <Tag color="#2db7f5" key={index}>{tag}</Tag>
-          )}
-          <span className="blog-header-user">{article.user ? article.user.name : ''}</span>
-          <span className="blog-header-time">发布于: {article.created_at}</span>
-          <div className="blog-header-like">
-            <Icon type="heart-o" />
-            <span>{article.like_times}</span>
-          </div>
-        </div>
-        <div
-          className="blog-content"
-          dangerouslySetInnerHTML={article.content && createMarkup(article.content)}
-        />
+        {this.renderBlogHeader(blog)}
+        <Highlight className="blog-content" innerHTML>
+          {blog.content ? marked(blog.content) : null}
+        </Highlight>
+        <BlogComment />
       </div>
     );
   }
@@ -47,7 +58,7 @@ class BlogDetail extends React.PureComponent {
 
 const mapStateToProps = ({ loading, article }) => ({
   loading: loading.models.article,
-  article: article.currentItem,
+  blog: article.currentItem,
 });
 
 export default connect(mapStateToProps)(BlogDetail);

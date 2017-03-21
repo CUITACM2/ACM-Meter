@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
 import { Pagination, Tag, Radio, Icon } from 'antd';
+import { getAvatar } from 'models/user';
 import './style.less';
 
 class BlogIndex extends React.PureComponent {
@@ -27,6 +28,24 @@ class BlogIndex extends React.PureComponent {
     }));
   }
 
+  renderBlog(blog) {
+    return (
+      <li key={blog.id}>
+        <div className="blog-item-rank">
+          <span className="blog-like-times">{blog.like_times}</span>
+          <i>推荐</i>
+        </div>
+        <div className="blog-item-info">
+          <h4><Link to={`/meter/blog/detail/${blog.id}`}>{blog.title}</Link></h4>
+          <p className="blog-item-summary">{blog.summary}</p>
+          <p className="blog-item-user">
+            <b>{blog.user ? blog.user.name : ''}</b> 发布于 {blog.created_at}
+          </p>
+        </div>
+      </li>
+    );
+  }
+
   render() {
     const { list, pagination } = this.props;
     return (
@@ -39,19 +58,7 @@ class BlogIndex extends React.PureComponent {
         </div>
         <div className="blog-card">
           <ul className="blog-list">
-            {list.map(blog =>
-              <li key={blog.id}>
-                <div className="blog-list-left">
-                  <Icon type="heart-o" />
-                  <span>{blog.like_times}</span>
-                </div>
-                <div className="blog-list-right">
-                  <h4><Link to={`/meter/blog/detail/${blog.id}`}>{blog.title}</Link></h4>
-                  <p>{blog.summary}</p>
-                  <p>{blog.user ? blog.user.name : ''}</p>
-                </div>
-              </li>
-            )}
+            {list.map(blog => this.renderBlog(blog))}
           </ul>
           <div className="pagination-center">
             <Pagination {...pagination} onChange={this.onPageChange} />

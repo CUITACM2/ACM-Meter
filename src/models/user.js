@@ -3,8 +3,9 @@ import pathToRegexp from 'path-to-regexp';
 import { getToken } from 'services/auth';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
+import { joinCDN } from 'src/config';
 import {
-  fetchUsers, fetchUser, createUser, updateUser, deleteUser
+  fetchUsers, fetchUser, updateUser, deleteUser
 } from 'services/user';
 
 const extractParams = query => {
@@ -12,6 +13,11 @@ const extractParams = query => {
   const filters = JSON.parse(query.filters || '{}');
   return { page: parseInt(page, 10), search, sortField, sortOrder, filters };
 };
+
+export function getAvatar(user) {
+  if (user == null || user.avatar == null) return '';
+  return joinCDN(user.avatar.thumb);
+}
 
 export default {
   namespace: 'user',
