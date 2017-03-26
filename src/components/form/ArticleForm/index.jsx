@@ -55,7 +55,7 @@ class ArticleForm extends React.PureComponent {
       ]
     });
     return (
-      <Form horizontal>
+      <Form layout="horizontal">
         <FormItem {...formItemLayout} label="标题">
           {titleDecorator(
             <Input size="default" placeholder="标题" />

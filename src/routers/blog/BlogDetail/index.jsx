@@ -44,7 +44,7 @@ class BlogDetail extends React.PureComponent {
       <Spin spinning={loading} delay={500} tip="加载中...">
         <div className="blog">
           {this.renderBlogHeader(blog)}
-          <Highlight className="blog-content" innerHTML>
+          <Highlight className="blog-content markdown-content" innerHTML>
             {blog.content ? marked(blog.content) : null}
           </Highlight>
           <BlogComment blog={blog} />

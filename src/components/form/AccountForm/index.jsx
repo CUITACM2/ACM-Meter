@@ -45,7 +45,7 @@ class AccountForm extends React.PureComponent {
     });
     const passwordDecorator = getFieldDecorator('password');
     return (
-      <Form horizontal onSubmit={this.onSubmit}>
+      <Form layout="horizontal">
         <FormItem {...formItemLayout} label="OJ">
           {ojNameDecorator(
             <Select placeholder="请选择OJ">

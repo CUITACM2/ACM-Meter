@@ -67,7 +67,7 @@ class UserForm extends React.PureComponent {
       initialValue: user.description
     });
     return (
-      <Form horizontal onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit}>
         <FormItem {...formItemLayout} label="昵称">
           {nicknameDecorator(
             <Input size="default" placeholder="昵称" />

@@ -213,7 +213,7 @@ class ProfileBlog extends React.PureComponent {
             </div>
             <hr />
             <h5>正文</h5>
-            <Highlight className="article-preview" innerHTML>
+            <Highlight className="article-preview markdown-content" innerHTML>
               {marked(activeRecord.content)}
             </Highlight>
           </div>
