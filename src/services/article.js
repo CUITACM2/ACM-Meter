@@ -38,3 +38,9 @@ export function fetchArticleComments(articleId, page, per, params = {}) {
   const query = { page, per, ...params };
   return requestWithToken(withParams(`${API_ROOT}/articles/${articleId}/comments`, query));
 }
+
+export function createArticleComment(articleId, params) {
+  return requestWithToken(`${API_ROOT}/articles/${articleId}/comments`, {
+    method: 'POST', body: JSON.stringify(params),
+  }, true);
+}

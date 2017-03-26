@@ -1,8 +1,15 @@
+@c1: #009a61;
+@c2: #dfdfdf;
+@c3: #999;
 
 .blog-comment {
   padding: 10px 0;
   margin-top: 10px;
-  border-top: 1px solid #dfdfdf;
+  border-top: 1px solid @c2;
+
+  h3 {
+    padding: 0 10px;
+  }
 }
 
 .comment-input-box {
@@ -25,5 +32,70 @@
   .comment-input {
     padding-left: 70px;
     margin-bottom: 10px;
+  }
+}
+
+.comment-input-submit {
+  span.tip {
+    padding: 0 10px;
+  }
+}
+
+.comment-list {
+  padding: 10px 10px;
+  
+}
+
+.comment-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid @c2;
+  &::before, &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .comment-user-avatar {
+    float: left;
+    width: 40px;
+    text-align: center;
+    display: block;
+    border-radius: 50%;
+  }
+
+  .comment-body {
+    margin-left: 55px;
+
+    .comment-user-name {
+      display: block;
+      color: @c3;
+      padding-bottom: 4px;
+      b { color: @c1; }
+    }
+
+    .parent-comment {
+      background-color: #f5f5f5;
+      padding: 10px;
+      margin-bottom: 3px;
+    }
+  }
+
+  .comment-operation {
+    padding-top: 10px;
+    a { color: @c3 };
+  }
+}
+
+.comment-reply-box {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-top: 7px;
+
+  textarea {
+    margin-bottom: 10px;
+  }
+
+  span.tip {
+    padding: 0 10px;
   }
 }

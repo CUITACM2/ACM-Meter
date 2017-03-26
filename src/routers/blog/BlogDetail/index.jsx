@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
-import { Tag, Icon } from 'antd';
+import { Tag, Spin } from 'antd';
 import marked from 'marked';
 import Highlight from 'react-highlight';
 import BlogComment from '../BlogComment';
@@ -11,10 +11,6 @@ class BlogDetail extends React.PureComponent {
     dispatch: PropTypes.func,
     loading: PropTypes.bool,
     blog: PropTypes.object,
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   renderBlogHeader(blog) {
@@ -34,30 +30,32 @@ class BlogDetail extends React.PureComponent {
         <span className="blog-header-time">
           发布于 {blog.created_at}
         </span>
-        <div className="blog-header-like">
+        {/* <div className="blog-header-like">
           <Icon type="heart-o" />
           <span>{blog.like_times}</span>
-        </div>
+        </div> */}
       </div>
     );
   }
 
   render() {
-    const { blog } = this.props;
+    const { blog, loading } = this.props;
     return (
-      <div className="blog">
-        {this.renderBlogHeader(blog)}
-        <Highlight className="blog-content" innerHTML>
-          {blog.content ? marked(blog.content) : null}
-        </Highlight>
-        <BlogComment />
-      </div>
+      <Spin spinning={loading} delay={500} tip="加载中...">
+        <div className="blog">
+          {this.renderBlogHeader(blog)}
+          <Highlight className="blog-content" innerHTML>
+            {blog.content ? marked(blog.content) : null}
+          </Highlight>
+          <BlogComment blog={blog} />
+        </div>
+      </Spin>
     );
   }
 }
 
 const mapStateToProps = ({ loading, article }) => ({
-  loading: loading.models.article,
+  loading: loading.models.article || false,
   blog: article.currentItem,
 });
 
