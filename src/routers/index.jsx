@@ -12,6 +12,7 @@ import BlogIndex from './blog/BlogIndex';
 import BlogDetail from './blog/BlogDetail';
 
 import AchievementIndex from './achievement/AchievementIndex';
+import AchievementAll from './achievement/AchievementAll';
 
 import ProfileApp from './principal/ProfileApp';
 import BlogEdit from './principal/BlogEdit';
@@ -36,6 +37,7 @@ export default ({ history }) => (
       <Route path="achievement">
         <IndexRedirect to="index" />
         <Route path="index" component={AchievementIndex} />
+        <Route path="all" component={AchievementAll} />
       </Route>
       <Route path="principal">
         <IndexRedirect to="profile" />

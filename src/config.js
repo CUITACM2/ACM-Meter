@@ -31,7 +31,10 @@ export const NavbarMenu = [
   {
     to: '/meter/achievement',
     text: '成就',
-    children: []
+    children: [
+      { to: '/meter/achievement/index', text: '我的成就', icon: 'rank' },
+      { to: '/meter/achievement/all', text: '全部成就', icon: 'rank' },
+    ]
   },
   {
     to: '/meter/principal',

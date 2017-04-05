@@ -1,0 +1,32 @@
+@c0: #108ee9;
+
+.type {
+  border: 1px solid #dfdfdf;
+  &.ant-tag-checkable-checked {
+    border-color:transparent;
+  }
+}
+
+.achie-item {
+  position: relative;
+  border: 1px solid #dfdfdf;
+  padding: 8px 32px;
+  margin: 8px 0;
+  border-radius: 4px;
+  text-align: center;
+  &-header {
+    color: @c0;
+    margin: 0 0 8px 0;
+  }
+  &-score {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+  }
+}
+.achie-type {
+  position: relative;
+  margin: 0 0 16px 0;
+}
