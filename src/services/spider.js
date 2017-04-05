@@ -19,5 +19,10 @@ export function fetchSubmits(page, per, params) {
 }
 
 export function fetchWorkers() {
-  return requestWithToken(withParams(`${API_ROOT}/spiders/workers`, query));
+  return requestWithToken(`${API_ROOT}/spiders/workers`);
+}
+
+export function fetchRankList(page, per, params) {
+  const query = { page, per, ...params };
+  return requestWithToken(withParams(`${API_ROOT}/spiders/rank_list`, query));
 }
