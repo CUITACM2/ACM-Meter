@@ -64,7 +64,7 @@ class UserForm extends React.PureComponent {
       initialValue: user.user_info.grade
     });
     const descriptionDecorator = getFieldDecorator('description', {
-      initialValue: user.description
+      initialValue: user.description || ''
     });
     return (
       <Form onSubmit={this.onSubmit}>
