@@ -51,10 +51,10 @@ export default {
     *createByArticle({ payload }, { call, put }) {
       const response = yield call(createArticleComment, payload.article_id, payload.params);
       if (response.comment) {
-        message.success('创建成功');
+        message.success('回复成功');
         yield put({ type: 'createSuccess', payload: response.comment });
       } else {
-        message.error('创建失败');
+        message.error('回复失败');
       }
     }
   },

@@ -44,3 +44,9 @@ export function createArticleComment(articleId, params) {
     method: 'POST', body: JSON.stringify(params),
   }, true);
 }
+
+export function likeArticle(articleId) {
+  return requestWithToken(`${API_ROOT}/articles/${articleId}/like`, {
+    method: 'PUT'
+  });
+}

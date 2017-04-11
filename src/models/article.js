@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import {
   fetchArticles, fetchArticle, updateArticle, deleteArticle,
-  fetchSolutions
+  fetchSolutions, likeArticle
 } from 'services/article';
 
 export const ArticleType = {
@@ -17,6 +17,13 @@ export const ArticleStatus = {
   PUBLISH: 2,
   PINNED: 3
 };
+
+export function getSortField(orderKey) {
+  if (orderKey == null) {
+    return 'created_at';
+  }
+  return orderKey === 'latest' ? 'created_at' : 'like_times';
+}
 
 const extractParams = query => {
   const { page = 1, search = '', sortField = 'id', sortOrder = 'descend' } = query;
@@ -44,6 +51,7 @@ export default {
         if (pathname === '/meter/blog/index') {
           const newQuery = {
             ...query,
+            sortField: getSortField(query.order),
             filters: JSON.stringify({
               ...query.filters,
               status: [ArticleStatus.PUBLISH, ArticleStatus.PINNED]
@@ -132,6 +140,15 @@ export default {
         yield put({ type: 'updateSuccess', payload: response.article });
       } else {
         message.error('修改失败');
+      }
+    },
+    *like({ payload }, { put, call }) {
+      const response = yield call(likeArticle, payload.id);
+      if (response.error_code !== 1) {
+        // message.success('修改成功');
+        yield put({ type: 'updateSuccess', payload: response.article });
+      } else {
+        // message.error('修改失败');
       }
     }
   },

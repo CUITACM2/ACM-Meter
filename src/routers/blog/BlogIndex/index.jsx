@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import { connect } from 'dva';
 import { Link, routerRedux } from 'dva/router';
-import { Pagination, Tag, Radio, Icon } from 'antd';
-import { getAvatar } from 'models/user';
+import { Pagination, Radio } from 'antd';
 import './style.less';
+
 
 class BlogIndex extends React.PureComponent {
   static propTypes = {
@@ -19,19 +20,37 @@ class BlogIndex extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onPageChange = this.onPageChange.bind(this);
+    this.onClickBlogTabs = this.onClickBlogTabs.bind(this);
+    this.onClickLikeBlog = this.onClickLikeBlog.bind(this);
   }
 
   onPageChange(page) {
     this.props.dispatch(routerRedux.push({
       pathname: '/meter/blog/index',
-      query: { ...this.props.location.query, page },
+      query: { ...this.props.location.query, page }
     }));
   }
 
+  onClickBlogTabs(e) {
+    const order = e.target.value;
+    this.props.dispatch(routerRedux.push({
+      pathname: '/meter/blog/index',
+      query: { ...this.props.location.query, order }
+    }));
+  }
+
+  onClickLikeBlog(id) {
+    this.props.dispatch({
+      type: 'article/like',
+      payload: { id }
+    });
+  }
+
   renderBlog(blog) {
+    const blogRankClass = classNames('blog-item-rank', blog.like_times > 0 ? 'green' : '');
     return (
       <li key={blog.id}>
-        <div className="blog-item-rank">
+        <div className={blogRankClass} onClick={() => this.onClickLikeBlog(blog.id)}>
           <span className="blog-like-times">{blog.like_times}</span>
           <i>推荐</i>
         </div>
@@ -48,12 +67,13 @@ class BlogIndex extends React.PureComponent {
 
   render() {
     const { list, pagination } = this.props;
+    const { order = 'latest' } = this.props.location.query;
     return (
       <div className="blog-index">
         <div className="blog-tabs">
-          <Radio.Group value="large" size="large">
-            <Radio.Button value="large">最新</Radio.Button>
-            <Radio.Button value="default">热门</Radio.Button>
+          <Radio.Group value={order} size="large" onChange={this.onClickBlogTabs}>
+            <Radio.Button value="latest">最新</Radio.Button>
+            <Radio.Button value="hottest">热门</Radio.Button>
           </Radio.Group>
         </div>
         <div className="blog-card">

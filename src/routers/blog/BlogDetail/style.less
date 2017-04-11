@@ -4,12 +4,13 @@
 
 .blog-header {
   position: relative;
-  padding: 10px 0;
+  padding: 0 0 10px;
   margin-bottom: 8px;
   border-bottom: 1px solid #dfdfdf;
   h1 {
     font-weight: bold;
     margin-bottom: 8px;
+    padding-right: 70px;
   }
   &-tags {
     display: inline-block;
@@ -42,6 +43,34 @@
       margin-top: 8px;
       font-size: 16px;
     }
+  }
+}
+
+.blog-header .blog-item-rank {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  width: 50px;
+  color: #666;
+  background: #f0f0f0;
+  text-align: center;
+  cursor: pointer;
+  padding: 3px 0;
+
+  &.green {
+    color: #fff;
+    background: @c2;
+  }
+
+  span.blog-like-times {
+    display: block;
+    font-size: 17px;
+  }
+  i {
+    display: block;
+    font-size: 13px;
+    padding: 2px 0;
+    font-style: normal;
   }
 }
 
