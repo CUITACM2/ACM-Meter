@@ -25,7 +25,7 @@ export default ({ history }) => (
       <IndexRedirect to="/meter/main" />
       <Route path="main" component={Home} />
       <Route path="train">
-        <IndexRedirect to="submits" />
+        <IndexRedirect to="rank" />
         <Route path="rank" component={RankList} />
         <Route path="submits" component={SpiderSubmit} />
       </Route>

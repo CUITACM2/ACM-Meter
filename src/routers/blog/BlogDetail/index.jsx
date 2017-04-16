@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import { connect } from 'dva';
 import { Tag, Spin } from 'antd';
 import marked from 'marked';
@@ -14,6 +15,7 @@ class BlogDetail extends React.PureComponent {
   }
 
   renderBlogHeader(blog) {
+    const blogRankClass = classNames('blog-item-rank', blog.like_times > 0 ? 'green' : '');
     return (
       <div className="blog-header">
         <h1>{blog.title}</h1>
@@ -30,10 +32,10 @@ class BlogDetail extends React.PureComponent {
         <span className="blog-header-time">
           发布于 {blog.created_at}
         </span>
-        {/* <div className="blog-header-like">
-          <Icon type="heart-o" />
-          <span>{blog.like_times}</span>
-        </div> */}
+        <div className={blogRankClass}>
+          <span className="blog-like-times">{blog.like_times}</span>
+          <i>推荐</i>
+        </div>
       </div>
     );
   }

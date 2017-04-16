@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Table } from 'antd';
+import { Table, Alert } from 'antd';
 import { OJ_MAP } from 'models/account';
-
+import './style.less';
 
 const getColumns = () => {
   const columns = [{
@@ -20,18 +19,13 @@ const getColumns = () => {
   const accountsColumns = Object.keys(OJ_MAP).map(ojKey => ({
     title: OJ_MAP[ojKey],
     dataIndex: `accounts.${ojKey}`,
-    width: '13%',
+    width: '12%',
     render: (accounts, record) => {
       const account = record.accounts[ojKey] || {};
-      const isRating = ['cf', 'bc'].indexOf(account.oj_name) >= 0;
       return (
         <div>
-          {account.solved ? (
-            <span>{isRating ? 'Rating' : 'Accepted'}: <b>{ account.solved }</b><br /></span>
-          ) : null}
-          {account.solved ? (
-            <span>{isRating ? 'MaxRating' : 'Submitted'}: <b>{ account.submitted }</b></span>
-          ) : null}
+          {account.solved ? (<b>{ account.solved }&nbsp;/&nbsp;</b>) : null}
+          {account.solved ? (<b>{ account.submitted }</b>) : null}
         </div>
       );
     }
@@ -39,7 +33,7 @@ const getColumns = () => {
   const lastColumns = [{
     title: 'Rank',
     dataIndex: 'train_rank',
-    width: '6%',
+    width: '10%',
     render: rank => <b className="red">{rank}</b>
   }];
   return [...columns, ...accountsColumns, ...lastColumns];
@@ -57,7 +51,15 @@ class RankList extends React.PureComponent {
   render() {
     const columns = getColumns();
     return (
-      <div>
+      <div className="rank-list">
+        <Alert
+          type="info" showIcon closable
+          message="帮助信息"
+          description={<p>
+            HDU, BNU, POJ, Hust Vjudge ==> <b>Accepted / Submitted</b><br />
+            Codeforces, Bestcoder ==> <b>Rating / MaxRating</b><br />
+          </p>}
+        />
         <Table
           bordered size="small"
           onChange={this.handleTableChange}
@@ -78,7 +80,7 @@ const mapStateToProps = ({ loading, rankList }) => ({
     pageSize: rankList.per,
     total: rankList.totalCount,
     showQuickJumper: true,
-    showTotal: total => <span>共有 {total} 条提交</span>,
+    showTotal: total => <span>共有 {total} 条</span>,
   }
 });
 
