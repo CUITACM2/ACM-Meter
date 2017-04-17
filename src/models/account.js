@@ -1,5 +1,7 @@
-import { fetchAccounts } from 'services/spider';
+import { message } from 'antd';
 import { extractParams } from 'utils/qs';
+import { fetchAccounts, createAccount, updateAccount } from 'services/spider';
+
 
 export const AccountStatus = {
   NOT_INIT: 0,
@@ -46,6 +48,27 @@ export default {
       });
       yield put({ type: 'saveList', payload: response });
     },
+    *create({ payload, callback }, { put, call }) {
+      const response = yield call(createAccount, payload.params);
+      if (response.error_code !== 1 && response.account != null) {
+        message.success('添加成功');
+        if (callback) callback();
+        yield put({ type: 'createSuccess', payload: response.account });
+      } else {
+        const err = response.message ? `: ${response.message}` : '';
+        message.error(`添加失败${err}`);
+      }
+    },
+    *update({ payload, callback }, { put, call }) {
+      const response = yield call(updateAccount, payload.id, payload.params);
+      if (response.error_code !== 1 && response.account != null) {
+        message.success('修改成功');
+        if (callback) callback();
+        yield put({ type: 'updateSuccess', payload: response.account });
+      } else {
+        message.error('修改失败');
+      }
+    },
   },
   reducers: {
     saveParams(state, { payload }) {
@@ -58,6 +81,15 @@ export default {
         page: payload.meta.current_page,
         totalCount: payload.meta.total_count,
         totalPages: payload.meta.total_pages,
+      };
+    },
+    createSuccess(state, { payload }) {
+      return { ...state, list: [payload, ...state.list] };
+    },
+    updateSuccess(state, { payload }) {
+      return {
+        ...state,
+        list: state.list.map(account => (account.id !== payload.id ? account : payload)),
       };
     },
   }

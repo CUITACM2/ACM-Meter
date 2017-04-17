@@ -121,8 +121,13 @@ class ProfileAccount extends React.PureComponent {
     }
   }
 
-  onUpdate() {
-    // todo
+  onUpdate(id, params) {
+    console.log(id, params);
+    if (id == null) {
+      this.props.dispatch({ type: 'account/create', payload: { params } });
+    } else {
+      this.props.dispatch({ type: 'account/update', payload: { id, params } });
+    }
   }
 
   handleTableChange(pagination) {

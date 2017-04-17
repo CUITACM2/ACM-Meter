@@ -27,23 +27,19 @@ class AccountForm extends React.PureComponent {
   render() {
     const { account } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 16 },
-    };
+    const formItemLayout = { labelCol: { span: 6 }, wrapperCol: { span: 16 } };
     const ojNameDecorator = getFieldDecorator('oj_name', {
       initialValue: account && account.oj_name,
-      rules: [
-        { required: true, message: '请选择OJ' }
-      ]
+      rules: [{ required: true, message: '请选择OJ' }]
     });
     const nicknameDecorator = getFieldDecorator('nickname', {
       initialValue: account && account.nickname,
-      rules: [
-        { required: true, message: '请填写账号昵称' }
-      ]
+      rules: [{ required: true, message: '请填写账号昵称' }]
     });
-    const passwordDecorator = getFieldDecorator('password');
+    const passwordDecorator = getFieldDecorator('password', {
+      initialValue: '',
+      rules: [{ required: true, message: '请填写账号密码' }]
+    });
     return (
       <Form layout="horizontal">
         <FormItem {...formItemLayout} label="OJ">

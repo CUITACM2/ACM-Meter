@@ -21,7 +21,7 @@ import BlogEdit from './principal/BlogEdit';
 export default ({ history }) => (
   <Router history={history}>
     <Route path="/meter" component={AppLayout} onEnter={validateLogin}>
-      <IndexRedirect to="/meter/main" />
+      <IndexRedirect to="/meter/principal/profile" />
       <Route path="main" component={Home} />
       <Route path="train">
         <IndexRedirect to="rank" />
