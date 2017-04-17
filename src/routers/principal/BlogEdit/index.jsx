@@ -15,15 +15,23 @@ class BlogEdit extends React.PureComponent {
     super(props);
     this.onSubmit = (id, params) => {
       console.log(id, params);
-      this.props.dispatch({
-        type: 'article/update',
-        payload: { id, params, goback: true }
-      });
+      if (id == null) {
+        this.props.dispatch({
+          type: 'article/create',
+          payload: { params, goback: true }
+        });
+      } else {
+        this.props.dispatch({
+          type: 'article/update',
+          payload: { id, params, goback: true }
+        });
+      }
     };
   }
 
   render() {
     const { loading, article } = this.props;
+    console.log(article);
     return (
       <div className="edit-page">
         <Breadcrumb>

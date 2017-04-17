@@ -2,8 +2,8 @@ import pathToRegexp from 'path-to-regexp';
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import {
-  fetchArticles, fetchArticle, updateArticle, deleteArticle,
-  fetchSolutions, likeArticle
+  fetchArticles, fetchArticle, createArticle, updateArticle,
+  deleteArticle, fetchSolutions, likeArticle
 } from 'services/article';
 
 export const ArticleType = {
@@ -111,6 +111,17 @@ export default {
     *fetchItem({ payload: id }, { put, call }) {
       const response = yield call(fetchArticle, id);
       yield put({ type: 'saveItem', payload: response.article });
+    },
+    *create({ payload }, { put, call }) {
+      const response = yield call(createArticle, payload.params);
+      if (response.article != null) {
+        message.success('创建成功');
+        if (payload.goback) {
+          yield put(routerRedux.goBack());
+        }
+      } else {
+        message.error('创建失败');
+      }
     },
     *update({ payload }, { put, call }) {
       const response = yield call(updateArticle, payload.id, payload.params);
