@@ -1,4 +1,5 @@
 @c0: #108ee9;
+@c1: #7e7e7e;
 
 .type {
   border: 1px solid #dfdfdf;
@@ -9,21 +10,44 @@
 
 .achie-item {
   position: relative;
-  border: 1px solid #dfdfdf;
   padding: 8px 32px;
-  margin: 8px 0;
+  margin: 8px auto;
   border-radius: 4px;
   text-align: center;
-  &-header {
-    color: @c0;
+  // max-width: 680px;
+  &.undone {
+    border: 1px solid #fff3cf;
+    background-color: #fffaeb;
+  }
+  &.complete {
+    border: 1px solid #cfefdf;
+    background-color: #ebf8f2;
+  }
+  & &-header {
     margin: 0 0 8px 0;
   }
-  &-score {
+  & &-score {
     position: absolute;
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 18px;
+  }
+}
+.undone {
+  & .achie-item-header {
+    color: @c1;
+  }
+  & .achie-item-desc {
+    color: @c1;
+  }
+}
+.complete {
+   & .achie-item-header {
+    color: rgb(249, 163, 0);
+  }
+  & .achie-item-desc {
+    color: @c1;
   }
 }
 .achie-type {

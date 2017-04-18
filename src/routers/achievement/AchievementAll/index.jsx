@@ -34,7 +34,7 @@ class AchievementIndex extends React.PureComponent {
 
   renderAchieItem(item) {
     return (
-      <div key={item.id} className="achie-item">
+      <div key={item.id} className="achie-item complete">
         <h3 className="achie-item-header">{item.name}</h3>
         <p className="achie-item-desc">{item.description}</p>
         <span className="achie-item-score">
