@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import { Progress } from 'antd';
 import './style.less';
 import mock from './mock'
-
 
 export default class AchievementIndex extends React.PureComponent {
 

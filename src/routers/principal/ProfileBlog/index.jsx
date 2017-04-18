@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table, Popconfirm, Button, Menu, Modal, Tag, Dropdown, Icon } from 'antd';
@@ -228,12 +229,11 @@ class ProfileBlog extends React.PureComponent {
       onPreview: this.onPreview,
       onChangeStatus: this.onChangeStatus
     });
-    console.log(this.props.list);
     return (
       <div>
         <div className="table-operations clear-fix">
           <Button type="primary" >
-            <Link to="/meter/principal/blog/create">新建解题报告</Link>
+            <Link to="/meter/principal/blog/create">发布解题报告</Link>
           </Button>
           <div className="pull-right">
             <SearchInput onSearch={this.onSearch} style={{ width: 200 }} />

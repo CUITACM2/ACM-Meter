@@ -10,7 +10,13 @@ export function fetchAccounts(page, per, params) {
 export function createAccount(params) {
   return requestWithToken(`${API_ROOT}/spiders/accounts`, {
     method: 'POST', body: JSON.stringify(params),
-  });
+  }, true);
+}
+
+export function updateAccount(id, params) {
+  return requestWithToken(`${API_ROOT}/spiders/accounts/${id}`, {
+    method: 'PUT', body: JSON.stringify(params),
+  }, true);
 }
 
 export function fetchSubmits(page, per, params) {

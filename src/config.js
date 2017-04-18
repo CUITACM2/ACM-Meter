@@ -10,11 +10,11 @@ export function joinCDN(url) {
 }
 
 export const NavbarMenu = [
-  {
-    to: '/meter/main',
-    text: '首页',
-    children: []
-  },
+  // {
+  //   to: '/meter/main',
+  //   text: '首页',
+  //   children: []
+  // },
   {
     to: '/meter/train',
     text: '训练',

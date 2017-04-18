@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table, Tag, Popconfirm, Button, Modal } from 'antd';
@@ -121,8 +122,13 @@ class ProfileAccount extends React.PureComponent {
     }
   }
 
-  onUpdate() {
-    // todo
+  onUpdate(id, params) {
+    console.log(id, params);
+    if (id == null) {
+      this.props.dispatch({ type: 'account/create', payload: { params } });
+    } else {
+      this.props.dispatch({ type: 'account/update', payload: { id, params } });
+    }
   }
 
   handleTableChange(pagination) {
