@@ -39,7 +39,7 @@ module.exports = webpackMerge(baseConfig, {
     new HtmlWebpackPlugin({
       inject: true,
       template: 'src/index.html',
-      filename: 'index.html',
+      filename: 'meter.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true
@@ -58,6 +58,15 @@ module.exports = webpackMerge(baseConfig, {
       test: /\.js$|\.css$/,
       threshold: 10240,
       minRatio: 0.8
+    }),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require(path.resolve(__dirname, '../vendor/manifest.json')),
+    }),
+    new AddAssetHtmlPlugin({
+      publicPath: '/frontend/vendor/',
+      filepath: require.resolve('../vendor/vendors.dll.js'),
+      includeSourcemap: false,
     })
   ]
 });
