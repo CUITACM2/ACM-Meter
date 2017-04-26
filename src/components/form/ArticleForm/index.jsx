@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Button } from 'antd';
 import { ArticleType, ArticleStatus } from 'models/article';
 import TagInput from 'components/TagInput';

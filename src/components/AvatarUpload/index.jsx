@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Upload, message } from 'antd';
 import { API_ROOT, joinCDN } from 'src/config';
 import { getToken } from 'services/auth';

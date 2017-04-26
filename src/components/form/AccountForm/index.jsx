@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Select, Button } from 'antd';
 import { OJ_MAP } from 'models/account';
 

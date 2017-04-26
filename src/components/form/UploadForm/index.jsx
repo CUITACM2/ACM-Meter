@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Button, Upload, Icon, message } from 'antd';
 import { ResourceUsage } from 'models/resource';
 import './style.less';
