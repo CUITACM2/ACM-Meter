@@ -1,20 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Tag, Icon } from 'antd';
+import { Input, Pagination } from 'antd';
 import { HumanAchievementType } from 'models/achievement';
 import './style.less';
 
-class MyTag extends React.PureComponent {
-  state = { checked: false };
-  handleChange = (checked) => {
-    this.setState({ checked });
-  }
-  render() {
-    return <Tag.CheckableTag className="type" {...this.props} checked={this.state.checked} onChange={this.handleChange} />;
-  }
-}
-
-
+const Search = Input.Search;
 
 class AchievementAll extends React.PureComponent {
   static propTypes = {
@@ -46,15 +37,12 @@ class AchievementAll extends React.PureComponent {
   render() {
     const { list, pagination } = this.props;
     return (
-      <div>
-        <div className="achie-type">
-          <MyTag>全部</MyTag>
-          {
-            Object.keys(HumanAchievementType).map(key => {
-              return <MyTag key={key}>{HumanAchievementType[key]}</MyTag>
-            })
-          }
-        </div>
+      <div className="achievement-all">
+        <Search
+          placeholder="input search text"
+          style={{ width: 200 }}
+          onSearch={value => console.log(value)}
+        />
         {
           list.map(item => this.renderAchieItem(item))
         }
