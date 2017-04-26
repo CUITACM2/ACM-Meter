@@ -49,12 +49,11 @@ export default {
         }
       });
     },
-    itemSubscriber({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/admin/achievements/edit/:id').exec(pathname);
-        if (match) {
-          const id = match[1];
-          dispatch({ type: 'fetchItem', payload: id });
+    userAchievementSub({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        if (pathname === '/meter/achievement/index') {
+          dispatch({ type: 'saveParams', payload: query });
+          dispatch({ type: 'fetchUserAchievements', payload: query });
         }
       });
     },
@@ -71,9 +70,15 @@ export default {
       });
       yield put({ type: 'saveList', payload: response });
     },
-    *fetchItem({ payload: id }, { put, call }) {
-      const response = yield call(fetchAchievement, id);
-      yield put({ type: 'saveItem', payload: response.achievement });
+    *fetchUserAchievements({ payload }, { put, call, select }) {
+      const params = extractParams(payload);
+      const per = yield select(state => state.account.per);
+      const response = yield call(fetchUserAchievements, params.page, per, {
+        sort_field: params.sortField,
+        sort_order: params.sortOrder,
+        filters: params.filters,
+      });
+      yield put({ type: 'saveList', payload: response });
     }
   },
   reducers: {
@@ -81,7 +86,6 @@ export default {
       return { ...state, ...extractParams(payload) };
     },
     saveList(state, { payload }) {
-      console.log('save')
       return {
         ...state,
         list: payload.items,
@@ -89,9 +93,6 @@ export default {
         totalCount: payload.meta.total_count,
         totalPages: payload.meta.total_pages,
       };
-    },
-    saveItem(state, { payload }) {
-      return { ...state, currentItem: payload };
     }
   }
 };

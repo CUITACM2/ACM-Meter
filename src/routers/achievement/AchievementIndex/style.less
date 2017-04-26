@@ -1,3 +1,6 @@
+@complete: #ebf8f2;
+@complete-border: #cfefdf;
+
 .achievement-index {
   .achievement-index-title {
     position: relative;
@@ -7,10 +10,36 @@
     border-bottom: 1px solid #dfdfdf;
     margin: 8px 0;
   }
-  .ant-progress-inner {
-    height: 20px;
-  }
-  .ant-progress-bg {
-    height: 20px !important;
+  .achievement-item {
+    position: relative;
+    padding: 8px 32px;
+    margin: 8px auto;
+    border-radius: 4px;
+    text-align: left;
+    background: #e9e9e9;
+    border: 1px solid #dfdfdf;
+    &.complete {
+      background: @complete;
+      border-color: @complete-border;
+      color: #00a854;
+    }
+    .achievement-item-header {
+      font-size: 16px;
+    }
+    .achievement-item-score {
+      float: right;
+      font-size: 18px;
+    }
+    .achievement-item-bottom {
+      margin-top: 8px;
+      color: #7e7e7e;
+      font-size: 12px;
+    }
+    .achievement-item-process {
+      margin-top: 8px;
+    }
+    .achievement-item-time {
+      float: right;
+    }
   }
 }

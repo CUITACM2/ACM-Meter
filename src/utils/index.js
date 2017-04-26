@@ -15,6 +15,10 @@ export function isObject(obj) {
   return type(obj) === '[object Object]';
 }
 
+export function formatTime (str) {
+  return str && str.split('T')[0];
+}
+
 const esc = window.encodeURIComponent;
 
 function decodeParams(parameters, prefix) {

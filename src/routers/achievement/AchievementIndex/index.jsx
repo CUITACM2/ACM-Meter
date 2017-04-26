@@ -1,13 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Progress, Tabs } from 'antd';
+import { Progress, Tabs, Pagination } from 'antd';
+import { formatTime } from 'utils/index';
 import './style.less';
-import mock from './mock'
 
 const TabPane = Tabs.TabPane
 
-export default class AchievementIndex extends React.PureComponent {
+class AchievementIndex extends React.PureComponent {
+  static propTypes = {
+    location: PropTypes.object,
+    dispatch: PropTypes.func,
+    loading: PropTypes.bool,
+    list: PropTypes.array,
+    type: PropTypes.string,
+    filters: PropTypes.object,
+    pagination: PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
     console.log(props.list)
@@ -15,13 +25,30 @@ export default class AchievementIndex extends React.PureComponent {
   }
 
   renderMyComplete (item) {
+    const isCompleted = !!item.completed
     return (
-      <div key={item.id} className="achie-item complete">
-        <h3 className="achie-item-header">{item.id}</h3>
-        <p className="achie-item-desc">{item.situation}</p>
-        <span className="achie-item-score">
-          {item.score}
-        </span>
+      <div key={item.id} className={isCompleted ? 'achievement-item complete' : 'achievement-item'}>
+        <div className="achievement-item-top">
+          <span className="achievement-item-header">{item.achievement.name}</span>
+          <span className="achievement-item-score">
+            {item.achievement.score}
+          </span>
+        </div>
+        {
+          !isCompleted && 
+          <Progress
+            className="achievement-item-process"
+            strokeWidth={16}
+            percent={item.current / item.total * 100} 
+            format={() => `${item.current}/${item.total}`}/>
+        }
+        <div className="achievement-item-bottom">
+          <span className="achievement-item-desc">{item.achievement.description}</span>
+          <span className="achievement-item-time">{
+            isCompleted ? `达成日期 ${formatTime(item.completed_at)}` : `开始日期 ${formatTime(item.created_at)}`
+            }</span>
+        </div>
+        
       </div>
     )
   }
@@ -31,20 +58,34 @@ export default class AchievementIndex extends React.PureComponent {
   }
 
   render() {
+    const { list, pagination } = this.props
+
     return (
       <div className="achievement-index">
         <Tabs defaultActiveKey="1" onChange={this.handleChange}>
-          <TabPane tab="成就概览" key="1">
-            <Progress percent={30} status="active"/>
-            <h3 className="achievement-index-title">最近获得</h3>
+          <TabPane tab="广播" key="1">
             {
-              mock.list.map(item => this.renderMyComplete(item))
+              list.map(item => this.renderMyComplete(item))
             }
+            <Pagination showQuickJumper defaultCurrent={2} total={500} onChange={this.handleChange} />
           </TabPane>
           <TabPane tab="进行中" key="2">进行中</TabPane>
           <TabPane tab="已完成" key="3">已完成</TabPane>
         </Tabs>
       </div>
-    );
+    )
   }
 }
+
+const mapStateToProps = ({ loading, achievement }) => ({
+  loading: loading.models.achievement,
+  list: achievement.list,
+  filters: achievement.filters,
+  pagination: {
+    current: achievement.page,
+    pageSize: achievement.per,
+    total: achievement.totalCount
+  }
+})
+
+export default connect(mapStateToProps)(AchievementIndex)

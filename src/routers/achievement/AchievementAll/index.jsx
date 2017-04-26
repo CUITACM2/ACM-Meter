@@ -16,7 +16,7 @@ class MyTag extends React.PureComponent {
 
 
 
-class AchievementIndex extends React.PureComponent {
+class AchievementAll extends React.PureComponent {
   static propTypes = {
     location: PropTypes.object,
     dispatch: PropTypes.func,
@@ -72,7 +72,7 @@ const mapStateToProps = ({ loading, achievement }) => ({
     pageSize: achievement.per,
     total: achievement.totalCount
   }
-});
+})
 
-export default connect(mapStateToProps)(AchievementIndex);
+export default connect(mapStateToProps)(AchievementAll)
 
