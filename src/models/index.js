@@ -6,7 +6,8 @@ import account from './account';
 import submit from './submit';
 import comment from './comment';
 import rankList from './rank_list';
+import achievement from './achievement';
 
 export default [
-  auth, user, article, resource, account, submit, comment, rankList
+  auth, user, article, resource, account, submit, comment, achievement
 ];
