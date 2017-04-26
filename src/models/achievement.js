@@ -40,6 +40,7 @@ export default {
     sortField: 'id',
     filters: {}
   },
+<<<<<<< HEAD
   subscriptions: {
     listSubscription({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
@@ -93,5 +94,10 @@ export default {
     saveItem(state, { payload }) {
       return { ...state, currentItem: payload };
     },
+=======
+  subscriptions: {},
+  effects: {},
+  reducers: {
+>>>>>>> master
   }
 };

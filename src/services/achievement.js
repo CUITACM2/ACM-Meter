@@ -10,3 +10,30 @@ export function fetchAchievements(page, per, params = {}) {
 export function fetchAchievement(id) {
   return request(`${API_ROOT}/achievements/${id}`);
 }
+export function fetchUserAchievements(page, per, params = {}) {
+  const query = { page, per, ...params };
+  return request(withParams(`${API_ROOT}/user_achievements`, query));
+}
+
+export function fetchAchievement(id) {
+  return request(`${API_ROOT}/achievements/${id}`);
+}
+
+export function createAchievement(params) {
+  return requestWithToken(`${API_ROOT}/achievements`, {
+    method: 'POST', body: JSON.stringify(params),
+  }, true);
+}
+
+export function updateAchievement(id, params) {
+  return requestWithToken(`${API_ROOT}/achievements/${id}`, {
+    method: 'PUT', body: JSON.stringify(params),
+  }, true);
+}
+
+export function deleteAchievement(id) {
+  return requestWithToken(`${API_ROOT}/achievements/${id}`, {
+    method: 'DELETE'
+  });
+}
+>>>>>>> master
