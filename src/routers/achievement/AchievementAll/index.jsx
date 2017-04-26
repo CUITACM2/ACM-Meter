@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Input, Pagination } from 'antd';
+import { Input, Pagination, Card, Icon } from 'antd';
 import { HumanAchievementType } from 'models/achievement';
 import './style.less';
 
@@ -19,19 +19,27 @@ class AchievementAll extends React.PureComponent {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   renderAchieItem(item) {
     return (
-      <div key={item.id} className="achie-item complete">
-        <h3 className="achie-item-header">{item.name}</h3>
-        <p className="achie-item-desc">{item.description}</p>
-        <span className="achie-item-score">
-          {item.score}
-        </span>
-      </div>
+      <Card key={item.id} title={item.name} className="achievement-card" >
+        <p className="achievement-card-desc">{item.description}</p>
+        <div className="achievement-card-tip">
+          <span><Icon type="tags" /> {HumanAchievementType[item.achievement_type]}</span>
+          <span><Icon type="star" /> {item.score}</span>
+        </div>
+      </Card>
     )
+  }
+
+  handlePageChange (page) {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/meter/achievement/all',
+      query: { ...this.props.location.query, page }
+    }));
   }
 
   render() {
@@ -43,9 +51,14 @@ class AchievementAll extends React.PureComponent {
           style={{ width: 200 }}
           onSearch={value => console.log(value)}
         />
-        {
-          list.map(item => this.renderAchieItem(item))
-        }
+        <div>
+          {
+            list.map(item => this.renderAchieItem(item))
+          }
+        </div>
+        <div className="pagination-center">
+            <Pagination {...pagination} onChange={this.handlePageChange} />
+        </div>
       </div>
     );
   }

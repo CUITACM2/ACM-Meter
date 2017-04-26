@@ -1,56 +1,39 @@
-@c0: #108ee9;
-@c1: #7e7e7e;
-
-.type {
-  border: 1px solid #dfdfdf;
-  &.ant-tag-checkable-checked {
-    border-color:transparent;
+.achievement-all {
+  .achievement-card {
+    display: inline-block;
+    width: 44%;
+    margin: 10px 3%;
+    .ant-card-head {
+      height: 48px;
+      line-height: 48px;
+      font-size: 18px;
+      background: #ecf6fd;
+      border-bottom: 1px solid #e9e9e9;
+      text-align: center;
+    }
+    .ant-card-head-title {
+        font-size: 14px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        color: #108ee9;
+        font-weight: 500;
+    }
+    .ant-card-body {
+      padding: 12px 24px;
+    }
+    .achievement-card-desc {
+      text-align: center;
+      font-size: 14px;
+    }
+    .achievement-card-tip {
+      text-align: right;
+      margin-top: 6px;
+      span {
+        margin: 0 12px;
+      }
+    }
   }
-}
-
-.achie-item {
-  position: relative;
-  padding: 8px 32px;
-  margin: 8px auto;
-  border-radius: 4px;
-  text-align: center;
-  // max-width: 680px;
-  &.undone {
-    border: 1px solid #fff3cf;
-    background-color: #fffaeb;
-  }
-  &.complete {
-    border: 1px solid #cfefdf;
-    background-color: #ebf8f2;
-  }
-  & &-header {
-    margin: 0 0 8px 0;
-  }
-  & &-score {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-  }
-}
-.undone {
-  & .achie-item-header {
-    color: @c1;
-  }
-  & .achie-item-desc {
-    color: @c1;
-  }
-}
-.complete {
-   & .achie-item-header {
-    color: rgb(249, 163, 0);
-  }
-  & .achie-item-desc {
-    color: @c1;
-  }
-}
-.achie-type {
-  position: relative;
-  margin: 0 0 16px 0;
 }
