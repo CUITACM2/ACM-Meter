@@ -7,9 +7,6 @@ export function fetchAchievements(page, per, params = {}) {
   return request(withParams(`${API_ROOT}/achievements`, query));
 }
 
-export function fetchAchievement(id) {
-  return request(`${API_ROOT}/achievements/${id}`);
-}
 export function fetchUserAchievements(page, per, params = {}) {
   const query = { page, per, ...params };
   return request(withParams(`${API_ROOT}/user_achievements`, query));
@@ -36,4 +33,3 @@ export function deleteAchievement(id) {
     method: 'DELETE'
   });
 }
->>>>>>> master
