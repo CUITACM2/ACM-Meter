@@ -1,4 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
+import jwtDecode from 'jwt-decode';
+import { getToken } from 'services/auth';
 import { extractParams } from 'utils/qs';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
@@ -52,6 +54,15 @@ export default {
     userAchievementSub({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         if (pathname === '/meter/achievement/index') {
+          const token = getToken();
+          const decoded = jwtDecode(token);
+          // 指定请求参数
+          query.sortField = 'updated_at';
+          query.sortOrder = 'descend';
+          let filters = JSON.parse(query.filters || '{}');
+          // 若不指定
+          filters.user_id = filters.user_id || decoded.user_id;
+          query.filters = JSON.stringify(filters);
           dispatch({ type: 'saveParams', payload: query });
           dispatch({ type: 'fetchUserAchievements', payload: query });
         }
