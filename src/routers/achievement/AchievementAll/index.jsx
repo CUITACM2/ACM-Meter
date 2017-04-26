@@ -28,8 +28,7 @@ class AchievementIndex extends React.PureComponent {
   }
 
   constructor(props) {
-    super(props);
-    console.log(props.list)
+    super(props)
   }
 
   renderAchieItem(item) {
