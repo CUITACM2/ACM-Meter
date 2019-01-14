@@ -20,5 +20,5 @@ new WebpackDevServer(webpack(config), {
   if (err) {
     return console.log(err);
   }
-  console.log('==> 🌎  Listening at http://localhost:' + config.devPort);
+  console.log('==> 🌎  Listening at http://localhost:' + config.devPort+'/meter');
 });

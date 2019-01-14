@@ -6,6 +6,7 @@ var baseConfig = require('./webpack.base.config');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CompressionPlugin = require("compression-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var AddAssetHtmlPlugin = require("add-asset-html-webpack-plugin")
 
 process.env.NODE_ENV = 'production';
 
@@ -64,7 +65,7 @@ module.exports = webpackMerge(baseConfig, {
       manifest: require(path.resolve(__dirname, '../vendor/manifest.json')),
     }),
     new AddAssetHtmlPlugin({
-      publicPath: '/frontend/vendor/',
+      publicPath: '/frontend/meter/',
       filepath: require.resolve('../vendor/vendors.dll.js'),
       includeSourcemap: false,
     })
