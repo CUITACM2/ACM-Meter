@@ -15,6 +15,7 @@ Object.keys(baseConfig.entry).forEach(function (name) {
 });
 
 module.exports = webpackMerge(baseConfig, {
+  'devtool' : 'source-map',
   module: {
     loaders: [
       {

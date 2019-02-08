@@ -19,7 +19,9 @@ export const NavbarMenu = [
     to: '/meter/train',
     text: '训练',
     children: [
-      { to: '/meter/train/rank', text: '排行榜', icon: 'rank' },
+      { to: '/meter/train/rank', text: '总排行榜', icon: 'rank' },
+      { to: '/meter/train/weekly_rank', text: '周排行榜', icon: 'rank' },
+      { to: '/meter/train/monthly_rank', text: '月排行榜', icon: 'rank' },
       { to: '/meter/train/submits', text: '最近提交', icon: 'list' },
     ]
   },
@@ -27,6 +29,10 @@ export const NavbarMenu = [
     to: '/meter/blog',
     text: '解题报告',
     children: []
+  },
+  {
+    to: '/meter/wiki',
+    text: 'wiki'
   },
   {
     to: '/meter/achievement',

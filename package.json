@@ -4,7 +4,7 @@
   "description": "ACM Meter",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node config/dev-server.js",
+    "dev": "cross-env NODE_ENV=development node config/dev-server.js --watch",
     "dev:dash": "cross-env NODE_ENV=development webpack-dashboard -- node config/dev-server.js",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel/register --require ./tests/testRunner.js --recursive ./tests",
     "test:watch": "npm test -- --watch",

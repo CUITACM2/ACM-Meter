@@ -16,6 +16,7 @@ import AchievementAll from './achievement/AchievementAll';
 
 import ProfileApp from './principal/ProfileApp';
 import BlogEdit from './principal/BlogEdit';
+import WikiPage from './wiki/WikiPage';
 
 
 /* eslint react/prop-types:0 */
@@ -24,9 +25,12 @@ export default ({ history }) => (
     <Route path="/meter" component={AppLayout} onEnter={validateLogin}>
       <IndexRedirect to="/meter/principal/profile" />
       <Route path="main" component={Home} />
+      <Route path='wiki' component={WikiPage}/>
       <Route path="train">
         <IndexRedirect to="rank" />
         <Route path="rank" component={RankList} />
+        <Route path="weekly_rank" component={RankList} />
+        <Route path="monthly_rank" component={RankList} />
         <Route path="submits" component={SpiderSubmit} />
       </Route>
       <Route path="blog">
