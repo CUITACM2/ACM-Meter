@@ -78,6 +78,7 @@ class Header extends React.PureComponent {
           break;
         case 'logout':
           this.props.dispatch({ type: 'auth/logout' });
+          window.location.href = '/auth/login?next=/meter/principal/profile'
           break;
         default:
           break;
