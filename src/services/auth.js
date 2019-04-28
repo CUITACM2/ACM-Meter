@@ -38,7 +38,7 @@ export function hasLogin() {
 export function validateLogin(nextState, replace, callback) {
   const isLogin = hasLogin();
   if (!isLogin && nextState.location.pathname !== '/auth/login') {
-    window.location.href = `/auth/login?next=${nextState.location.pathname}`;
+    //window.location.href = `/auth/login?next=${nextState.location.pathname}`;
   }
   callback();
 }

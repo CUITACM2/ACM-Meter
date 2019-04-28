@@ -22,8 +22,9 @@ class ProfileCard extends React.PureComponent {
     this.state = {
       visibleEditUserModal: false
     };
-    this.onUpdateUser = () => {
-      this.props.dispatch({});
+    this.onUpdateUser = (id, params) => {
+      console.log('ProfileCard', params)
+      this.props.dispatch({type:'user/update',payload:{id, params}});
     };
     this.afterAvatarUpload = (newUser) => {
       this.props.dispatch({
